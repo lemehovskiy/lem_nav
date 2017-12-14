@@ -13,7 +13,7 @@
 (function ($) {
     'use strict';
 
-    class  {
+    class WpNav {
 
         constructor(element, options) {
 
@@ -29,7 +29,7 @@
     }
 
 
-    $.fn. = function() {
+    $.fn.wpNav = function() {
         let $this = this,
             opt = arguments[0],
             args = Array.prototype.slice.call(arguments, 1),
@@ -38,9 +38,9 @@
             ret;
         for (i = 0; i < length; i++) {
             if (typeof opt == 'object' || typeof opt == 'undefined')
-                $this[i]. = new ($this[i], opt);
+                $this[i].wp_nav = new WpNav($this[i], opt);
             else
-                ret = $this[i].[opt].apply($this[i]., args);
+                ret = $this[i].wp_nav[opt].apply($this[i].wp_nav, args);
             if (typeof ret != 'undefined') return ret;
         }
         return $this;

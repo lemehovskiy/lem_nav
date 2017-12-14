@@ -24,7 +24,8 @@ if (isset($options['init'])) {
     if (isset($options['install'])) {
 
         if (!required_fields_validation($config)) {
-            echo 'Fill required fields' ."\r\n";
+            echo 'Fill required config properties' ."\r\n";
+            return;
         }
 
         create_main_js_file($config);
@@ -82,6 +83,8 @@ function required_fields_validation($config){
         echo 'project_keywords is required property' ."\r\n";
         return false;
     }
+
+    return true;
 }
 
 function create_demo_folder($config){

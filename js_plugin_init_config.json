@@ -1,10 +1,10 @@
 {
     "project_name": "wp_nav",
-    "project_class": null,
-    "jquery_function_name": null,
-    "function_name_underscore": null,
-    "project_description": null,
-    "project_keywords": [],
+    "project_class": "WpNav",
+    "jquery_function_name": "wpNav",
+    "function_name_underscore": "wp_nav",
+    "project_description": "jQuery wordpress navigation",
+    "project_keywords": ["jquery", "wordpress", "wp", "navigation", "greensock", "animation", "gsap", "plugin", "menu", "collapse"],
     "gitignore": [
         ".idea",
         "**\/node_modules",

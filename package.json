@@ -1,7 +1,7 @@
 {
     "name": "wp_nav",
     "version": "1.0.0",
-    "description": null,
+    "description": "jQuery wordpress navigation",
     "main": "build\/wp_nav.es6",
     "dependencies": {
         "jquery": ">=1.7"
@@ -27,7 +27,18 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "keywords": [],
+    "keywords": [
+        "jquery",
+        "wordpress",
+        "wp",
+        "navigation",
+        "greensock",
+        "animation",
+        "gsap",
+        "plugin",
+        "menu",
+        "collapse"
+    ],
     "repository": {
         "type": "git",
         "url": "https:\/\/github.com\/lemehovskiy\/wp_nav"
