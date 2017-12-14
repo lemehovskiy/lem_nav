@@ -1,0 +1,13 @@
+{
+    "project_name": "wp_nav",
+    "project_class": null,
+    "jquery_function_name": null,
+    "function_name_underscore": null,
+    "project_description": null,
+    "project_keywords": [],
+    "gitignore": [
+        ".idea",
+        "**\/node_modules",
+        "**\/DS_Store"
+    ]
+}
