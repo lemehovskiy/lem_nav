@@ -8,10 +8,66 @@
     <meta name="description" content="jQuery wordpress navigation">
     <meta name="keywords" content="jquery wordpress wp navigation greensock animation gsap plugin menu collapse">
 
+    <link rel="stylesheet" href="../build/wp_nav.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+<header>
+    <div class="container">
+        <div class="wp-navbar-head">
+            <a class="logo" href="/">
+                Lemehovskiy
+            </a>
+            <button type="button" class="wp-navbar-toggle">
+                <div class="animate-burger">
+                    <span class="top"></span>
+                    <span class="middle"></span>
+                    <span class="bottom"></span>
+                </div>
+            </button>
+        </div>
+
+        <div class="wp-navbar-collapse">
+
+            <ul id="menu-main-menu" class="nav">
+                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                    <a href="#">Home</a>
+                </li>
+
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children">
+                    <a>About</a>
+                    <ul class="sub-menu">
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                            <a href="#">
+                                About 1
+                            </a>
+                        </li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                            <a href="#">
+                                About 2
+                            </a>
+                        </li>
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                            <a href="#">
+                                About 3
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                    <a href="#">Team</a>
+                </li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</header>
 
 
 <section class="section-intro back-img" style="background-image: url('imgs/hs_err_pid689.jpg')">
@@ -39,12 +95,14 @@
                     <div class="desc">
                         <p>
                             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+                            architecto
                             beatae vitae dicta sunt explicabo.
                         </p>
                         <p>
                             Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
+                            nesciunt.
                         </p>
                     </div>
                 </div>
@@ -63,12 +121,14 @@
                     <div class="desc">
                         <p>
                             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+                            architecto
                             beatae vitae dicta sunt explicabo.
                         </p>
                         <p>
                             Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
+                            nesciunt.
                         </p>
                     </div>
                 </div>
@@ -87,12 +147,14 @@
                     <div class="desc">
                         <p>
                             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+                            architecto
                             beatae vitae dicta sunt explicabo.
                         </p>
                         <p>
                             Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
+                            nesciunt.
                         </p>
                     </div>
                 </div>
@@ -110,11 +172,32 @@
 
 
 <script src="js/jquery-3.2.0.min.js"></script>
-<script src="js/TweenLite.min.js"></script>
-<script src="js/CSSPlugin.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 
 <script src="../build/wp_nav.min.js"></script>
 
+
+<script>
+
+    (function ($) {
+
+
+        $('.wp-navbar-collapse').wpNav({
+            collapse_duration: 0.6,
+            trigger: 'hover',
+            navbar_toggle: '.wp-navbar-toggle',
+            on_dropdown_shown: function () {
+                TweenLite.to('.dropdown-caption', 0.5, {autoAlpha: 1})
+            },
+            on_dropdown_hide: function () {
+                TweenLite.to('.dropdown-caption', 0.2, {autoAlpha: 0})
+            }
+        });
+
+    })(jQuery);
+
+</script>
 
 
 </body>

@@ -2,7 +2,7 @@
     "name": "wp_nav",
     "version": "1.0.0",
     "description": "jQuery wordpress navigation",
-    "main": "build\/wp_nav.es6",
+    "main": "build\/wp_nav.js",
     "dependencies": {
         "jquery": ">=1.7"
     },
