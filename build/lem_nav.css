@@ -1,59 +1,68 @@
-.wp-navbar-head {
+.lem-navbar-head {
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
   width: 100%; }
-  .wp-navbar-head .wp-navbar-toggle {
+  .lem-navbar-head .lem-navbar-toggle {
     border: none;
     background: transparent; }
     @media (min-width: 801px) {
-      .wp-navbar-head .wp-navbar-toggle {
+      .lem-navbar-head .lem-navbar-toggle {
         display: none; } }
-    .wp-navbar-head .wp-navbar-toggle:hover {
+    .lem-navbar-head .lem-navbar-toggle:hover {
       background: transparent; }
-      .wp-navbar-head .wp-navbar-toggle:hover .animate-burger .top {
+      .lem-navbar-head .lem-navbar-toggle:hover .animate-burger .top {
+        -webkit-transform: translateY(-3px);
         -ms-transform: translateY(-3px);
         transform: translateY(-3px); }
-      .wp-navbar-head .wp-navbar-toggle:hover .animate-burger .bottom {
+      .lem-navbar-head .lem-navbar-toggle:hover .animate-burger .bottom {
+        -webkit-transform: translateY(3px);
         -ms-transform: translateY(3px);
         transform: translateY(3px); }
-    .wp-navbar-head .wp-navbar-toggle.open .animate-burger .top {
+    .lem-navbar-head .lem-navbar-toggle.open .animate-burger .top {
+      -webkit-transform: translateY(7px) rotate(-45deg);
       -ms-transform: translateY(7px) rotate(-45deg);
       transform: translateY(7px) rotate(-45deg); }
-    .wp-navbar-head .wp-navbar-toggle.open .animate-burger .middle {
+    .lem-navbar-head .lem-navbar-toggle.open .animate-burger .middle {
+      -webkit-transform: translateX(10px);
       -ms-transform: translateX(10px);
       transform: translateX(10px);
       opacity: 0; }
-    .wp-navbar-head .wp-navbar-toggle.open .animate-burger .bottom {
+    .lem-navbar-head .lem-navbar-toggle.open .animate-burger .bottom {
+      -webkit-transform: translateY(-7px) rotate(45deg);
       -ms-transform: translateY(-7px) rotate(45deg);
       transform: translateY(-7px) rotate(45deg); }
-    .wp-navbar-head .wp-navbar-toggle .animate-burger {
+    .lem-navbar-head .lem-navbar-toggle .animate-burger {
       display: inline-block;
       position: relative;
       width: 24px;
       height: 16px; }
-      .wp-navbar-head .wp-navbar-toggle .animate-burger span {
+      .lem-navbar-head .lem-navbar-toggle .animate-burger span {
         position: absolute;
         width: 100%;
         height: 2px;
         background-color: white;
         left: 0;
-        transition: transform .5s, opacity .6s; }
-      .wp-navbar-head .wp-navbar-toggle .animate-burger .top {
+        transition: opacity .6s, -webkit-transform .5s;
+        transition: transform .5s, opacity .6s;
+        transition: transform .5s, opacity .6s, -webkit-transform .5s; }
+      .lem-navbar-head .lem-navbar-toggle .animate-burger .top {
         top: 0; }
-      .wp-navbar-head .wp-navbar-toggle .animate-burger .middle {
+      .lem-navbar-head .lem-navbar-toggle .animate-burger .middle {
         top: 50%;
         margin-top: -1px; }
-      .wp-navbar-head .wp-navbar-toggle .animate-burger .bottom {
+      .lem-navbar-head .lem-navbar-toggle .animate-burger .bottom {
         bottom: 0; }
 
 @media (min-width: 801px) {
-  .wp-navbar-collapse {
+  .lem-navbar-collapse {
     display: block !important; } }
 
 @media (max-width: 800px) {
-  .wp-navbar-collapse {
+  .lem-navbar-collapse {
     overflow: hidden;
     height: 0; } }
 
@@ -68,8 +77,10 @@ header {
     padding: 0 20px; }
     @media (min-width: 801px) {
       header .container {
+        display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
+        -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
         justify-content: space-between; } }
   header .logo {
@@ -82,6 +93,7 @@ header {
     padding: 14px 0; }
   @media (min-width: 801px) {
     header .nav {
+      display: -webkit-flex;
       display: -ms-flexbox;
       display: flex; } }
   header .nav a {
@@ -100,7 +112,8 @@ header {
     background: rgba(14, 82, 74, 0.9);
     color: white;
     height: 0;
-    min-width: 150px; }
+    min-width: 150px;
+    overflow: hidden; }
     @media (min-width: 801px) {
       header .sub-menu {
         position: absolute;
@@ -110,4 +123,4 @@ header {
       padding: 20px 30px;
       color: white; }
 
-/*# sourceMappingURL=wp_nav.css.map */
+/*# sourceMappingURL=lem_nav.css.map */

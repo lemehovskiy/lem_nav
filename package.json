@@ -1,8 +1,8 @@
 {
-    "name": "wp_nav",
+    "name": "lem_nav",
     "version": "1.0.0",
-    "description": "jQuery wordpress navigation",
-    "main": "build\/wp_nav.js",
+    "description": "jQuery navigation",
+    "main": "build\/lem_nav.js",
     "dependencies": {
         "jquery": ">=1.7"
     },
@@ -29,8 +29,6 @@
     },
     "keywords": [
         "jquery",
-        "wordpress",
-        "wp",
         "navigation",
         "greensock",
         "animation",
@@ -41,7 +39,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https:\/\/github.com\/lemehovskiy\/wp_nav"
+        "url": "https:\/\/github.com\/lemehovskiy\/lem_nav"
     },
     "author": "lemehovskiy",
     "license": "ISC"

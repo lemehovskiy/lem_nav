@@ -2,12 +2,12 @@ $mobile-menu-breakpoint: 800px;
 $menu-background-color: #0E524A;
 $menu-font-color: white;
 
-.wp-navbar-head {
+.lem-navbar-head {
   display: flex;
   justify-content: space-between;
   width: 100%;
 
-  .wp-navbar-toggle {
+  .lem-navbar-toggle {
     @media (min-width: $mobile-menu-breakpoint + 1) {
       display: none;
     }
@@ -68,7 +68,7 @@ $menu-font-color: white;
 
 }
 
-.wp-navbar-collapse {
+.lem-navbar-collapse {
 
   @media (min-width: $mobile-menu-breakpoint + 1) {
     display: block !important;
@@ -138,6 +138,7 @@ header {
     color: $menu-font-color;
     height: 0;
     min-width: 150px;
+    overflow: hidden;
 
     @media (min-width: $mobile-menu-breakpoint + 1) {
       position: absolute;

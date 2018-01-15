@@ -13,7 +13,7 @@
 (function ($) {
     'use strict';
 
-    class WpNav {
+    class LemNav {
 
         constructor(element, options) {
 
@@ -28,7 +28,7 @@
             self.$navbar = $(element);
 
             self.settings = $.extend({
-                navbar_toggle: '.wp-navbar-toggle',
+                navbar_toggle: '.lem-navbar-toggle',
                 collapse_duration: 0.2,
                 trigger: 'click',
                 trigger_linked: false,
@@ -64,14 +64,6 @@
                 dropdown.menu_items_tl = new TimelineMax({
                     paused: true
                 });
-
-
-                dropdown.menu_items_tl.staggerFrom(
-                    dropdown.menu_items,
-                    self.settings.collapse_duration,
-                    {
-                        autoAlpha: 0
-                    }, self.settings.collapse_duration / dropdown.menu_items.length)
 
             })
 
@@ -195,9 +187,6 @@
                 onComplete: dropdown_shown
             })
 
-            dropdown.menu_items_tl.timeScale(1.2);
-            dropdown.menu_items_tl.play();
-
             dropdown.open = true;
             dropdown.trigger.addClass('open');
 
@@ -212,9 +201,6 @@
 
             self.settings.on_dropdown_hide()
 
-            dropdown.menu_items_tl.timeScale(8);
-            dropdown.menu_items_tl.reverse();
-
             TweenLite.to(dropdown.menu, self.settings.collapse_duration, {height: 0})
 
             dropdown.open = false;
@@ -223,7 +209,7 @@
     }
 
 
-    $.fn.wpNav = function() {
+    $.fn.lemNav = function() {
         let $this = this,
             opt = arguments[0],
             args = Array.prototype.slice.call(arguments, 1),
@@ -232,9 +218,9 @@
             ret;
         for (i = 0; i < length; i++) {
             if (typeof opt == 'object' || typeof opt == 'undefined')
-                $this[i].wp_nav = new WpNav($this[i], opt);
+                $this[i].lem_nav = new LemNav($this[i], opt);
             else
-                ret = $this[i].wp_nav[opt].apply($this[i].wp_nav, args);
+                ret = $this[i].lem_nav[opt].apply($this[i].lem_nav, args);
             if (typeof ret != 'undefined') return ret;
         }
         return $this;

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>wp_nav</title>
+    <title>lem_nav</title>
 
-    <meta name="description" content="jQuery wordpress navigation">
-    <meta name="keywords" content="jquery wordpress wp navigation greensock animation gsap plugin menu collapse">
+    <meta name="description" content="jQuery navigation">
+    <meta name="keywords" content="jquery navigation greensock animation gsap plugin menu collapse">
 
-    <link rel="stylesheet" href="../build/wp_nav.css">
+    <link rel="stylesheet" href="../build/lem_nav.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -16,11 +16,11 @@
 
 <header>
     <div class="container">
-        <div class="wp-navbar-head">
+        <div class="lem-navbar-head">
             <a class="logo" href="/">
                 Lemehovskiy
             </a>
-            <button type="button" class="wp-navbar-toggle">
+            <button type="button" class="lem-navbar-toggle">
                 <div class="animate-burger">
                     <span class="top"></span>
                     <span class="middle"></span>
@@ -29,27 +29,27 @@
             </button>
         </div>
 
-        <div class="wp-navbar-collapse">
+        <div class="lem-navbar-collapse">
 
-            <ul id="menu-main-menu" class="nav">
-                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+            <ul class="nav">
+                <li class="menu-item">
                     <a href="#">Home</a>
                 </li>
 
-                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children">
+                <li class="menu-item menu-item-has-children">
                     <a>About</a>
                     <ul class="sub-menu">
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <li class="menu-item">
                             <a href="#">
                                 About 1
                             </a>
                         </li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <li class="menu-item">
                             <a href="#">
                                 About 2
                             </a>
                         </li>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                        <li class="menu-item">
                             <a href="#">
                                 About 3
                             </a>
@@ -57,10 +57,10 @@
                     </ul>
                 </li>
 
-                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                <li class="menu-item">
                     <a href="#">Team</a>
                 </li>
-                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                <li class="menu-item">
                     <a href="#">Contact</a>
                 </li>
             </ul>
@@ -175,7 +175,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 
-<script src="../build/wp_nav.min.js"></script>
+<script src="../build/lem_nav.min.js"></script>
 
 
 <script>
@@ -183,10 +183,10 @@
     (function ($) {
 
 
-        $('.wp-navbar-collapse').wpNav({
+        $('.lem-navbar-collapse').lemNav({
             collapse_duration: 0.6,
             trigger: 'hover',
-            navbar_toggle: '.wp-navbar-toggle',
+            navbar_toggle: '.lem-navbar-toggle',
             on_dropdown_shown: function () {
                 TweenLite.to('.dropdown-caption', 0.5, {autoAlpha: 1})
             },

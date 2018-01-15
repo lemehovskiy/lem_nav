@@ -38,7 +38,7 @@ gulp.task('styles', function () {
 gulp.task('plugin_styles', function () {
 
     gulp.task('plugin_styles', function () {
-        return gulp.src('./src/wp_nav.scss')
+        return gulp.src('./src/lem_nav.scss')
             .pipe(plumber({
                 errorHandler: notify.onError("Error: <%= error.message %>")
             }))
@@ -58,7 +58,7 @@ gulp.task('plugin_styles', function () {
 
 gulp.task('scripts', function() {
     return streamqueue({ objectMode: true },
-        gulp.src('./src/wp_nav.es6')
+        gulp.src('./src/lem_nav.es6')
     )
 
         .pipe(plumber({
@@ -82,6 +82,6 @@ gulp.task('scripts', function() {
 // configure which files to watch and what tasks to use on file changes
 gulp.task('watch', ['styles', 'scripts', 'plugin_styles'], function() {
     gulp.watch('demo/sass/**/*.scss', ['styles']);
-    gulp.watch('src/wp_nav.es6', ['scripts']);
-    gulp.watch('src/wp_nav.scss', ['plugin_styles']);
+    gulp.watch('src/lem_nav.es6', ['scripts']);
+    gulp.watch('src/lem_nav.scss', ['plugin_styles']);
 });

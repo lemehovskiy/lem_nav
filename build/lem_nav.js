@@ -19,9 +19,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 })(function ($) {
     'use strict';
 
-    var WpNav = function () {
-        function WpNav(element, options) {
-            _classCallCheck(this, WpNav);
+    var LemNav = function () {
+        function LemNav(element, options) {
+            _classCallCheck(this, LemNav);
 
             var self = this;
 
@@ -34,7 +34,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             self.$navbar = $(element);
 
             self.settings = $.extend({
-                navbar_toggle: '.wp-navbar-toggle',
+                navbar_toggle: '.lem-navbar-toggle',
                 collapse_duration: 0.2,
                 trigger: 'click',
                 trigger_linked: false,
@@ -48,7 +48,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             self.init();
         }
 
-        _createClass(WpNav, [{
+        _createClass(LemNav, [{
             key: 'init',
             value: function init() {
                 var self = this;
@@ -69,10 +69,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     dropdown.menu_items_tl = new TimelineMax({
                         paused: true
                     });
-
-                    dropdown.menu_items_tl.staggerFrom(dropdown.menu_items, self.settings.collapse_duration, {
-                        autoAlpha: 0
-                    }, self.settings.collapse_duration / dropdown.menu_items.length);
                 });
 
                 if (self.settings.trigger_linked) {
@@ -187,9 +183,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     onComplete: dropdown_shown
                 });
 
-                dropdown.menu_items_tl.timeScale(1.2);
-                dropdown.menu_items_tl.play();
-
                 dropdown.open = true;
                 dropdown.trigger.addClass('open');
 
@@ -205,9 +198,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 self.settings.on_dropdown_hide();
 
-                dropdown.menu_items_tl.timeScale(8);
-                dropdown.menu_items_tl.reverse();
-
                 TweenLite.to(dropdown.menu, self.settings.collapse_duration, { height: 0 });
 
                 dropdown.open = false;
@@ -215,10 +205,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }
         }]);
 
-        return WpNav;
+        return LemNav;
     }();
 
-    $.fn.wpNav = function () {
+    $.fn.lemNav = function () {
         var $this = this,
             opt = arguments[0],
             args = Array.prototype.slice.call(arguments, 1),
@@ -226,7 +216,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             i = void 0,
             ret = void 0;
         for (i = 0; i < length; i++) {
-            if ((typeof opt === 'undefined' ? 'undefined' : _typeof(opt)) == 'object' || typeof opt == 'undefined') $this[i].wp_nav = new WpNav($this[i], opt);else ret = $this[i].wp_nav[opt].apply($this[i].wp_nav, args);
+            if ((typeof opt === 'undefined' ? 'undefined' : _typeof(opt)) == 'object' || typeof opt == 'undefined') $this[i].lem_nav = new LemNav($this[i], opt);else ret = $this[i].lem_nav[opt].apply($this[i].lem_nav, args);
             if (typeof ret != 'undefined') return ret;
         }
         return $this;

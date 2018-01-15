@@ -3,7 +3,7 @@ wp_nav
 
 ### Demo
 
-[https://lemehovskiy.github.io/wp_nav/demo](https://lemehovskiy.github.io/wp_nav/demo/)
+[https://lemehovskiy.github.io/lem_nav/demo](https://lemehovskiy.github.io/lem_nav/demo/)
 
 ### Browser support
 
