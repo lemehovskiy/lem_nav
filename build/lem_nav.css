@@ -73,6 +73,17 @@ header {
   width: 100%;
   z-index: 100;
   background: #0E524A; }
+  header .extra-trigger {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block; }
+    @media (min-width: 801px) {
+      header .extra-trigger {
+        display: none; } }
   header .container {
     padding: 0 20px; }
     @media (min-width: 801px) {
