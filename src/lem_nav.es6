@@ -51,7 +51,8 @@
                 let $this = $(this);
 
                 self.nav.dropdowns.push({
-                    trigger: $this,
+                    nav_item: $this,
+                    trigger: $this.find('a'),
                     menu: $this.find('>.sub-menu'),
                     menu_items: $this.find('>.sub-menu >li'),
                     open: false
@@ -98,6 +99,7 @@
                 self.nav.dropdowns.forEach(function (dropdown) {
                     dropdown.trigger.hover(
                         function () {
+                            console.log('hover')
                             self.open({
                                 dropdown: dropdown
                             })
@@ -159,9 +161,12 @@
 
                 let $button = $(self.settings.extra_trigger_button);
 
-                dropdown.trigger.append($button);
+                dropdown.nav_item.append($button);
 
                 $button.on('click', function () {
+
+                    console.log('click trigger')
+
                     if (dropdown.open) {
                         self.close({
                             dropdown: dropdown
@@ -188,7 +193,7 @@
             })
 
             dropdown.open = true;
-            dropdown.trigger.addClass('open');
+            dropdown.nav_item.addClass('open');
 
             function dropdown_shown() {
                 self.settings.on_dropdown_shown()
@@ -204,7 +209,7 @@
             TweenLite.to(dropdown.menu, self.settings.collapse_duration, {height: 0})
 
             dropdown.open = false;
-            dropdown.trigger.removeClass('open');
+            dropdown.nav_item.removeClass('open');
         }
     }
 
