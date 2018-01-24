@@ -95,7 +95,8 @@
                 })
             }
 
-            else if (self.settings.trigger == 'hover' && !self.is_touch_device) {
+            else if (self.settings.trigger == 'hover' && !(self.is_touch_device())) {
+
                 self.nav.dropdowns.forEach(function (dropdown) {
                     dropdown.trigger.hover(
                         function () {
@@ -211,8 +212,12 @@
         }
 
         is_touch_device() {
-            return 'ontouchstart' in window 
-                || navigator.maxTouchPoints;
+            try {
+                document.createEvent("TouchEvent");
+                return true;
+            } catch (e) {
+                return false;
+            }
         };
     }
 

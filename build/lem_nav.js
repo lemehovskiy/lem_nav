@@ -95,7 +95,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             }
                         });
                     });
-                } else if (self.settings.trigger == 'hover' && !self.is_touch_device) {
+                } else if (self.settings.trigger == 'hover' && !self.is_touch_device()) {
+
                     self.nav.dropdowns.forEach(function (dropdown) {
                         dropdown.trigger.hover(function () {
                             self.open({
@@ -208,7 +209,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'is_touch_device',
             value: function is_touch_device() {
-                return 'ontouchstart' in window || navigator.maxTouchPoints;
+                try {
+                    document.createEvent("TouchEvent");
+                    return true;
+                } catch (e) {
+                    return false;
+                }
             }
         }]);
 
