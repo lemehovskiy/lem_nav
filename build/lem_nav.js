@@ -98,7 +98,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 } else if (self.settings.trigger == 'hover') {
                     self.nav.dropdowns.forEach(function (dropdown) {
                         dropdown.trigger.hover(function () {
-                            console.log('hover');
                             self.open({
                                 dropdown: dropdown
                             });
@@ -160,8 +159,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     dropdown.nav_item.append($button);
 
                     $button.on('click', function () {
-
-                        console.log('click trigger');
 
                         if (dropdown.open) {
                             self.close({
