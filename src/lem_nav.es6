@@ -95,7 +95,7 @@
                 })
             }
 
-            else if (self.settings.trigger == 'hover') {
+            else if (self.settings.trigger == 'hover' && !self.is_touch_device) {
                 self.nav.dropdowns.forEach(function (dropdown) {
                     dropdown.trigger.hover(
                         function () {
@@ -110,6 +110,7 @@
                         }
                     )
                 })
+                
             }
 
 
@@ -208,10 +209,15 @@
             dropdown.open = false;
             dropdown.nav_item.removeClass('open');
         }
+
+        is_touch_device() {
+            return 'ontouchstart' in window 
+                || navigator.maxTouchPoints;
+        };
     }
 
 
-    $.fn.lemNav = function() {
+    $.fn.lemNav = function () {
         let $this = this,
             opt = arguments[0],
             args = Array.prototype.slice.call(arguments, 1),

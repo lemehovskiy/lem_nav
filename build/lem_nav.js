@@ -95,7 +95,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             }
                         });
                     });
-                } else if (self.settings.trigger == 'hover') {
+                } else if (self.settings.trigger == 'hover' && !self.is_touch_device) {
                     self.nav.dropdowns.forEach(function (dropdown) {
                         dropdown.trigger.hover(function () {
                             self.open({
@@ -204,6 +204,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 dropdown.open = false;
                 dropdown.nav_item.removeClass('open');
+            }
+        }, {
+            key: 'is_touch_device',
+            value: function is_touch_device() {
+                return 'ontouchstart' in window || navigator.maxTouchPoints;
             }
         }]);
 
