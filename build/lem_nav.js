@@ -53,6 +53,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function init() {
                 var self = this;
 
+                if (self.is_touch_device()) {
+                    $('body').addClass('is-touch');
+                }
+
                 self.$navbar.find('.menu-item-has-children').each(function () {
                     var $this = $(this);
 

@@ -1,8 +1,6 @@
 .lem-navbar-head {
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
   width: 100%; }
@@ -15,24 +13,19 @@
     .lem-navbar-head .lem-navbar-toggle:hover {
       background: transparent; }
       .lem-navbar-head .lem-navbar-toggle:hover .animate-burger .top {
-        -webkit-transform: translateY(-3px);
         -ms-transform: translateY(-3px);
         transform: translateY(-3px); }
       .lem-navbar-head .lem-navbar-toggle:hover .animate-burger .bottom {
-        -webkit-transform: translateY(3px);
         -ms-transform: translateY(3px);
         transform: translateY(3px); }
     .lem-navbar-head .lem-navbar-toggle.open .animate-burger .top {
-      -webkit-transform: translateY(7px) rotate(-45deg);
       -ms-transform: translateY(7px) rotate(-45deg);
       transform: translateY(7px) rotate(-45deg); }
     .lem-navbar-head .lem-navbar-toggle.open .animate-burger .middle {
-      -webkit-transform: translateX(10px);
       -ms-transform: translateX(10px);
       transform: translateX(10px);
       opacity: 0; }
     .lem-navbar-head .lem-navbar-toggle.open .animate-burger .bottom {
-      -webkit-transform: translateY(-7px) rotate(45deg);
       -ms-transform: translateY(-7px) rotate(45deg);
       transform: translateY(-7px) rotate(45deg); }
     .lem-navbar-head .lem-navbar-toggle .animate-burger {
@@ -46,9 +39,7 @@
         height: 2px;
         background-color: white;
         left: 0;
-        transition: opacity .6s, -webkit-transform .5s;
-        transition: transform .5s, opacity .6s;
-        transition: transform .5s, opacity .6s, -webkit-transform .5s; }
+        transition: transform .5s, opacity .6s; }
       .lem-navbar-head .lem-navbar-toggle .animate-burger .top {
         top: 0; }
       .lem-navbar-head .lem-navbar-toggle .animate-burger .middle {
@@ -88,10 +79,8 @@ header {
     padding: 0 20px; }
     @media (min-width: 801px) {
       header .container {
-        display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
         justify-content: space-between; } }
   header .logo {
@@ -104,7 +93,6 @@ header {
     padding: 14px 0; }
   @media (min-width: 801px) {
     header .nav {
-      display: -webkit-flex;
       display: -ms-flexbox;
       display: flex; } }
   header .nav a {

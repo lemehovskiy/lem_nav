@@ -69,13 +69,10 @@ section {
 .section-intro {
   position: relative;
   min-height: 100vh;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
   color: white; }
@@ -101,7 +98,6 @@ section {
 
 @media (min-width: 801px) {
   .section-features .feature-item {
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex; } }
 
@@ -122,7 +118,6 @@ section {
 
 @media (min-width: 801px) {
   .section-features .feature-item:nth-child(even) {
-    -webkit-flex-direction: row-reverse;
     -ms-flex-direction: row-reverse;
     flex-direction: row-reverse; }
     .section-features .feature-item:nth-child(even) .img-col .img-wrap {

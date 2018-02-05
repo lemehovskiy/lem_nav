@@ -47,6 +47,10 @@
         init() {
             let self = this;
 
+            if (self.is_touch_device()){
+                $('body').addClass('is-touch');
+            }
+
             self.$navbar.find('.menu-item-has-children').each(function () {
                 let $this = $(this);
 
