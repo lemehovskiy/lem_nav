@@ -62,7 +62,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                     self.nav.dropdowns.push({
                         nav_item: $this,
-                        trigger: $this.find('a'),
+                        trigger: $this,
                         menu: $this.find('>.sub-menu'),
                         menu_items: $this.find('>.sub-menu >li'),
                         open: false
