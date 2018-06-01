@@ -49,11 +49,27 @@
                                 About 2
                             </a>
                         </li>
-                        <li class="menu-item">
-                            <a href="/">
-                                About 3
-                            </a>
+                        <li class="menu-item menu-item-has-children">
+                            <a href="/">About 3</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="/">
+                                        About 3 - 1
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/">
+                                        About 3 - 2
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/">
+                                        About 3 - 3
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
                     </ul>
                 </li>
 
@@ -184,7 +200,7 @@
 
         $('.lem-navbar-collapse').lemNav({
             collapse_duration: 0.6,
-            trigger: 'hover',
+            trigger: 'click',
             navbar_toggle: '.lem-navbar-toggle',
             trigger_linked: true
         });

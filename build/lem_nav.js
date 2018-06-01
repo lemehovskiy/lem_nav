@@ -57,28 +57,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     $('body').addClass('is-touch');
                 }
 
-                self.$navbar.find('.menu-item-has-children').each(function () {
-                    var $this = $(this);
-
-                    self.nav.dropdowns.push({
-                        nav_item: $this,
-                        trigger: $this,
-                        menu: $this.find('>.sub-menu'),
-                        menu_items: $this.find('>.sub-menu >li'),
-                        open: false
-                    });
-                });
-
-                self.nav.dropdowns.forEach(function (dropdown) {
-
-                    dropdown.menu_items_tl = new TimelineMax({
-                        paused: true
-                    });
-                });
+                if (this.settings.trigger == 'click') {
+                    self.$navbar.addClass('trigger-click');
+                }
 
                 if (self.settings.trigger_linked) {
                     self.extra_trigger();
                 }
+
+                this.store_dropdowns_data();
 
                 if (self.settings.trigger == 'click') {
                     $(window).click(function () {
@@ -86,12 +73,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     });
                     self.nav.dropdowns.forEach(function (dropdown) {
                         dropdown.trigger.on('click', function (event) {
+
                             event.stopPropagation();
                             if (dropdown.open) {
+                                console.log('111');
+
                                 self.close({
                                     dropdown: dropdown
                                 });
                             } else {
+
+                                console.log('222');
+
                                 self.close_all();
                                 self.open({
                                     dropdown: dropdown
@@ -100,7 +93,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         });
                     });
                 } else if (self.settings.trigger == 'hover' && !self.is_touch_device()) {
-
                     self.nav.dropdowns.forEach(function (dropdown) {
                         dropdown.trigger.hover(function () {
                             self.open({
@@ -117,9 +109,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 self.navbar_collapse();
             }
         }, {
+            key: 'store_dropdowns_data',
+            value: function store_dropdowns_data() {
+                this.$navbar.find('.menu-item-has-children').each(function () {
+                    var $this = $(this);
+
+                    this.nav.dropdowns.push({
+                        nav_item: $this,
+                        trigger: $this,
+                        menu: $this.find('>.sub-menu'),
+                        menu_items: $this.find('>.sub-menu >li'),
+                        open: $()
+                    });
+                }.bind(this));
+
+                this.nav.dropdowns.forEach(function (dropdown) {
+                    dropdown.menu_items_tl = new TimelineMax({
+                        paused: true
+                    });
+                });
+            }
+        }, {
             key: 'close_all',
             value: function close_all() {
-
                 var self = this;
 
                 self.nav.dropdowns.forEach(function (dropdown) {
@@ -162,19 +174,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     var $button = $(self.settings.extra_trigger_button);
 
                     dropdown.nav_item.append($button);
-
-                    $button.on('click', function () {
-
-                        if (dropdown.open) {
-                            self.close({
-                                dropdown: dropdown
-                            });
-                        } else {
-                            self.open({
-                                dropdown: dropdown
-                            });
-                        }
-                    });
+                    //
+                    // $button.on('click', function () {
+                    //
+                    //     if (dropdown.open) {
+                    //         self.close({
+                    //             dropdown: dropdown
+                    //         })
+                    //     }
+                    //     else {
+                    //         self.open({
+                    //             dropdown: dropdown
+                    //         })
+                    //     }
+                    // })
                 });
             }
         }, {

@@ -51,31 +51,16 @@
                 $('body').addClass('is-touch');
             }
 
-            self.$navbar.find('.menu-item-has-children').each(function () {
-                let $this = $(this);
-
-                self.nav.dropdowns.push({
-                    nav_item: $this,
-                    trigger: $this,
-                    menu: $this.find('>.sub-menu'),
-                    menu_items: $this.find('>.sub-menu >li'),
-                    open: false
-                });
-            })
-
-
-            self.nav.dropdowns.forEach(function (dropdown) {
-
-                dropdown.menu_items_tl = new TimelineMax({
-                    paused: true
-                });
-
-            })
-
+            if (this.settings.trigger == 'click') {
+                self.$navbar.addClass('trigger-click');
+            }
 
             if (self.settings.trigger_linked) {
                 self.extra_trigger();
             }
+
+
+            this.store_dropdowns_data();
 
             if (self.settings.trigger == 'click') {
                 $(window).click(function () {
@@ -83,13 +68,19 @@
                 });
                 self.nav.dropdowns.forEach(function (dropdown) {
                     dropdown.trigger.on('click', function (event) {
+
                         event.stopPropagation();
                         if (dropdown.open) {
+                            console.log('111');
+
                             self.close({
                                 dropdown: dropdown
                             })
                         }
                         else {
+
+                            console.log('222');
+
                             self.close_all();
                             self.open({
                                 dropdown: dropdown
@@ -100,7 +91,6 @@
             }
 
             else if (self.settings.trigger == 'hover' && !(self.is_touch_device())) {
-
                 self.nav.dropdowns.forEach(function (dropdown) {
                     dropdown.trigger.hover(
                         function () {
@@ -115,15 +105,32 @@
                         }
                     )
                 })
-                
             }
-
 
             self.navbar_collapse();
         }
 
-        close_all() {
+        store_dropdowns_data(){
+            this.$navbar.find('.menu-item-has-children').each(function () {
+                let $this = $(this);
 
+                this.nav.dropdowns.push({
+                    nav_item: $this,
+                    trigger: $this,
+                    menu: $this.find('>.sub-menu'),
+                    menu_items: $this.find('>.sub-menu >li'),
+                    open: $()
+                });
+            }.bind(this));
+
+            this.nav.dropdowns.forEach(function (dropdown) {
+                dropdown.menu_items_tl = new TimelineMax({
+                    paused: true
+                });
+            })
+        }
+
+        close_all() {
             let self = this;
 
             self.nav.dropdowns.forEach(function (dropdown) {
@@ -167,20 +174,20 @@
                 let $button = $(self.settings.extra_trigger_button);
 
                 dropdown.nav_item.append($button);
-
-                $button.on('click', function () {
-
-                    if (dropdown.open) {
-                        self.close({
-                            dropdown: dropdown
-                        })
-                    }
-                    else {
-                        self.open({
-                            dropdown: dropdown
-                        })
-                    }
-                })
+                //
+                // $button.on('click', function () {
+                //
+                //     if (dropdown.open) {
+                //         self.close({
+                //             dropdown: dropdown
+                //         })
+                //     }
+                //     else {
+                //         self.open({
+                //             dropdown: dropdown
+                //         })
+                //     }
+                // })
             })
         }
 

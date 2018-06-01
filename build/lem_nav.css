@@ -64,7 +64,10 @@ header {
   width: 100%;
   z-index: 100;
   background: #0E524A; }
-  header .extra-trigger {
+  @media (min-width: 801px) {
+    header .lem-navbar-collapse:not(.trigger-click) .extra-trigger {
+      display: none; } }
+  header .lem-navbar-collapse .extra-trigger {
     width: 30px;
     height: 30px;
     font-size: 30px;
@@ -72,9 +75,6 @@ header {
     right: 0;
     top: 0;
     display: block; }
-    @media (min-width: 801px) {
-      header .extra-trigger {
-        display: none; } }
   header .container {
     padding: 0 20px; }
     @media (min-width: 801px) {
@@ -95,6 +95,14 @@ header {
     header .nav {
       display: -ms-flexbox;
       display: flex; } }
+  @media (min-width: 801px) {
+    header .nav > .menu-item-has-children > .sub-menu {
+      position: absolute;
+      left: 0;
+      top: 100%; } }
+  header .nav > .menu-item-has-children > .sub-menu .sub-menu {
+    padding: 0 0 0 20px;
+    white-space: nowrap; }
   header .nav a {
     text-decoration: none;
     display: block; }
@@ -110,17 +118,14 @@ header {
       @media (max-width: 800px) {
         header .nav > li > a {
           padding: 20px 0; } }
+  header .menu-item-has-children {
+    position: relative; }
   header .sub-menu {
     background: rgba(14, 82, 74, 0.9);
     color: white;
     height: 0;
     min-width: 150px;
     overflow: hidden; }
-    @media (min-width: 801px) {
-      header .sub-menu {
-        position: absolute;
-        left: 0;
-        top: 100%; } }
     header .sub-menu > li > a {
       padding: 20px 30px;
       color: white; }
