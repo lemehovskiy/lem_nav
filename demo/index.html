@@ -62,10 +62,25 @@
                                         About 3 - 2
                                     </a>
                                 </li>
-                                <li class="menu-item">
-                                    <a href="/">
-                                        About 3 - 3
-                                    </a>
+                                <li class="menu-item menu-item-has-children">
+                                    <a href="/">About 3 - 3</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item">
+                                            <a href="/">
+                                                About 3 - 3 - 1
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="/">
+                                                About 3 - 3 - 2
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="/">
+                                                About 3 - 3 - 3
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>
@@ -73,8 +88,56 @@
                     </ul>
                 </li>
 
-                <li class="menu-item">
+                <li class="menu-item menu-item-has-children">
                     <a href="/">Team</a>
+                    <ul class="sub-menu">
+                        <li class="menu-item">
+                            <a href="/">
+                                Team 1
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/">
+                                Team 2
+                            </a>
+                        </li>
+                        <li class="menu-item menu-item-has-children">
+                            <a href="/">Team 3</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="/">
+                                        Team 3 - 1
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/">
+                                        Team 3 - 2
+                                    </a>
+                                </li>
+                                <li class="menu-item menu-item-has-children">
+                                    <a href="/">Team 3 - 3</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item">
+                                            <a href="/">
+                                                Team 3 - 3 - 1
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="/">
+                                                Team 3 - 3 - 2
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="/">
+                                                Team 3 - 3 - 3
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
                 </li>
                 <li class="menu-item">
                     <a href="/">Contact</a>
@@ -197,12 +260,10 @@
 
     (function ($) {
 
-
         $('.lem-navbar-collapse').lemNav({
             collapse_duration: 0.6,
-            trigger: 'click',
-            navbar_toggle: '.lem-navbar-toggle',
-            trigger_linked: true
+            trigger: 'hover',
+            navbar_toggle: '.lem-navbar-toggle'
         });
 
     })(jQuery);

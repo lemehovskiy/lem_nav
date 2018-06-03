@@ -53,6 +53,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function init() {
                 var self = this;
 
+                this.set_dropdowns_data();
+
                 if (self.is_touch_device()) {
                     $('body').addClass('is-touch');
                 }
@@ -61,31 +63,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     self.$navbar.addClass('trigger-click');
                 }
 
-                if (self.settings.trigger_linked) {
-                    self.extra_trigger();
-                }
-
-                this.store_dropdowns_data();
-
                 if (self.settings.trigger == 'click') {
                     $(window).click(function () {
                         self.close_all();
                     });
                     self.nav.dropdowns.forEach(function (dropdown) {
+
                         dropdown.trigger.on('click', function (event) {
 
                             event.stopPropagation();
                             if (dropdown.open) {
-                                console.log('111');
 
                                 self.close({
                                     dropdown: dropdown
                                 });
                             } else {
 
-                                console.log('222');
-
-                                self.close_all();
+                                self.close_other_branches(dropdown.branch_id);
                                 self.open({
                                     dropdown: dropdown
                                 });
@@ -109,39 +103,63 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 self.navbar_collapse();
             }
         }, {
-            key: 'store_dropdowns_data',
-            value: function store_dropdowns_data() {
-                this.$navbar.find('.menu-item-has-children').each(function () {
-                    var $this = $(this);
+            key: 'set_dropdowns_data',
+            value: function set_dropdowns_data() {
+                var self = this;
 
-                    this.nav.dropdowns.push({
-                        nav_item: $this,
-                        trigger: $this,
-                        menu: $this.find('>.sub-menu'),
-                        menu_items: $this.find('>.sub-menu >li'),
-                        open: $()
-                    });
-                }.bind(this));
+                self.$navbar.find('.nav >.menu-item-has-children').each(function (index) {
 
-                this.nav.dropdowns.forEach(function (dropdown) {
-                    dropdown.menu_items_tl = new TimelineMax({
-                        paused: true
+                    var sub_menu = get_submenu({
+                        $nav_item: $(this),
+                        menu_lv: 1,
+                        branch_id: index
                     });
+
+                    self.nav.dropdowns.push(sub_menu);
                 });
+
+                function get_submenu(options) {
+
+                    var nested_submenu = {
+                        nav_item: options.$nav_item,
+                        trigger: options.$nav_item,
+                        menu: options.$nav_item.find('>.sub-menu'),
+                        menu_items: options.$nav_item.find('>.sub-menu >li'),
+                        menu_lv: options.menu_lv,
+                        branch_id: options.branch_id
+                    };
+
+                    if (self.settings.trigger_linked) {
+                        nested_submenu.extra_trigger = self.extra_trigger(options.$nav_item);
+                    }
+
+                    options.$nav_item.find('>.sub-menu >.menu-item-has-children').each(function () {
+                        self.nav.dropdowns.push(get_submenu({
+                            $nav_item: $(this),
+                            menu_lv: options.menu_lv + 1,
+                            branch_id: options.branch_id
+                        }));
+                    });
+
+                    return nested_submenu;
+                }
             }
         }, {
-            key: 'close_all',
-            value: function close_all() {
+            key: 'close_other_branches',
+            value: function close_other_branches(current_branch_id) {
                 var self = this;
 
                 self.nav.dropdowns.forEach(function (dropdown) {
-                    if (dropdown.open) {
+                    if (dropdown.open && !dropdown.branch_id == current_branch_id) {
                         self.close({
                             dropdown: dropdown
                         });
                     }
                 });
             }
+        }, {
+            key: 'close_other',
+            value: function close_other() {}
         }, {
             key: 'navbar_collapse',
             value: function navbar_collapse() {
@@ -166,29 +184,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }
         }, {
             key: 'extra_trigger',
-            value: function extra_trigger() {
+            value: function extra_trigger($nav_item) {
                 var self = this;
 
-                self.nav.dropdowns.forEach(function (dropdown) {
+                var $trigger = $(self.settings.extra_trigger_button);
 
-                    var $button = $(self.settings.extra_trigger_button);
+                $nav_item.append($trigger);
 
-                    dropdown.nav_item.append($button);
-                    //
-                    // $button.on('click', function () {
-                    //
-                    //     if (dropdown.open) {
-                    //         self.close({
-                    //             dropdown: dropdown
-                    //         })
-                    //     }
-                    //     else {
-                    //         self.open({
-                    //             dropdown: dropdown
-                    //         })
-                    //     }
-                    // })
-                });
+                return $trigger;
             }
         }, {
             key: 'open',

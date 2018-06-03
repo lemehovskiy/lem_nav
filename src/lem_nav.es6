@@ -47,7 +47,9 @@
         init() {
             let self = this;
 
-            if (self.is_touch_device()){
+            this.set_dropdowns_data();
+
+            if (self.is_touch_device()) {
                 $('body').addClass('is-touch');
             }
 
@@ -55,23 +57,16 @@
                 self.$navbar.addClass('trigger-click');
             }
 
-            if (self.settings.trigger_linked) {
-                self.extra_trigger();
-            }
-
-
-            this.store_dropdowns_data();
-
             if (self.settings.trigger == 'click') {
                 $(window).click(function () {
                     self.close_all();
                 });
                 self.nav.dropdowns.forEach(function (dropdown) {
+
                     dropdown.trigger.on('click', function (event) {
 
                         event.stopPropagation();
                         if (dropdown.open) {
-                            console.log('111');
 
                             self.close({
                                 dropdown: dropdown
@@ -79,9 +74,7 @@
                         }
                         else {
 
-                            console.log('222');
-
-                            self.close_all();
+                            self.close_other_branches(dropdown.branch_id);
                             self.open({
                                 dropdown: dropdown
                             })
@@ -110,36 +103,70 @@
             self.navbar_collapse();
         }
 
-        store_dropdowns_data(){
-            this.$navbar.find('.menu-item-has-children').each(function () {
-                let $this = $(this);
+        set_dropdowns_data() {
+            let self = this;
 
-                this.nav.dropdowns.push({
-                    nav_item: $this,
-                    trigger: $this,
-                    menu: $this.find('>.sub-menu'),
-                    menu_items: $this.find('>.sub-menu >li'),
-                    open: $()
-                });
-            }.bind(this));
+            self.$navbar.find('.nav >.menu-item-has-children').each(function (index) {
 
-            this.nav.dropdowns.forEach(function (dropdown) {
-                dropdown.menu_items_tl = new TimelineMax({
-                    paused: true
+                let sub_menu = get_submenu(
+                    {
+                        $nav_item: $(this),
+                        menu_lv: 1,
+                        branch_id: index
+                    }
+                );
+
+                self.nav.dropdowns.push(sub_menu);
+
+            });
+
+
+            function get_submenu(options) {
+
+                let nested_submenu = {
+                    nav_item: options.$nav_item,
+                    trigger: options.$nav_item,
+                    menu: options.$nav_item.find('>.sub-menu'),
+                    menu_items: options.$nav_item.find('>.sub-menu >li'),
+                    menu_lv: options.menu_lv,
+                    branch_id: options.branch_id
+                }
+
+
+                if (self.settings.trigger_linked) {
+                    nested_submenu.extra_trigger = self.extra_trigger(options.$nav_item)
+                }
+
+                options.$nav_item.find('>.sub-menu >.menu-item-has-children').each(function () {
+                    self.nav.dropdowns.push(get_submenu(
+                        {
+                            $nav_item: $(this),
+                            menu_lv: options.menu_lv + 1,
+                            branch_id: options.branch_id
+                        })
+                    )
                 });
-            })
+
+                return nested_submenu
+
+            }
+
         }
 
-        close_all() {
+        close_other_branches(current_branch_id) {
             let self = this;
 
             self.nav.dropdowns.forEach(function (dropdown) {
-                if (dropdown.open) {
+                if (dropdown.open && !dropdown.branch_id == current_branch_id) {
                     self.close({
                         dropdown: dropdown
                     })
                 }
             })
+        }
+
+        close_other() {
+
         }
 
         navbar_collapse() {
@@ -166,29 +193,15 @@
             })
         }
 
-        extra_trigger() {
+        extra_trigger($nav_item) {
             let self = this;
 
-            self.nav.dropdowns.forEach(function (dropdown) {
 
-                let $button = $(self.settings.extra_trigger_button);
+            let $trigger = $(self.settings.extra_trigger_button);
 
-                dropdown.nav_item.append($button);
-                //
-                // $button.on('click', function () {
-                //
-                //     if (dropdown.open) {
-                //         self.close({
-                //             dropdown: dropdown
-                //         })
-                //     }
-                //     else {
-                //         self.open({
-                //             dropdown: dropdown
-                //         })
-                //     }
-                // })
-            })
+            $nav_item.append($trigger);
+
+            return $trigger;
         }
 
         open(options) {
