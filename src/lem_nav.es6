@@ -49,11 +49,13 @@
                 $('body').addClass('is-touch');
             }
 
-            if (this.settings.trigger == 'click') {
-                self.$navbar.addClass('trigger-click');
-            }
-
             if (self.settings.trigger == 'click') {
+                self.$navbar.addClass('trigger-click');
+
+                $(window).click(function () {
+                    self.close_all();
+                });
+
                 self.nav.dropdowns.forEach(function (dropdown) {
 
                     dropdown.trigger.on('click', function (event) {
@@ -64,6 +66,7 @@
                             self.close({
                                 dropdown: dropdown
                             })
+                            console.log('111');
                         }
                         else {
 
@@ -85,6 +88,7 @@
                             })
                         },
                         function () {
+                            console.log('222')
                             self.close({
                                 dropdown: dropdown
                             })
@@ -215,6 +219,18 @@
             }
         }
 
+        close_all() {
+            let self = this;
+
+            self.nav.dropdowns.forEach(function (dropdown) {
+                if (dropdown.open) {
+                    self.close({
+                        dropdown: dropdown
+                    })
+                }
+            })
+        }
+
         close(options) {
             let self = this;
             let dropdown = options.dropdown;
@@ -225,6 +241,7 @@
             })
 
             dropdown.menu.trigger('hide.lnav');
+
             dropdown.open = false;
             dropdown.nav_item.removeClass('open');
 
