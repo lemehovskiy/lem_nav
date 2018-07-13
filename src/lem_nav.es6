@@ -32,12 +32,8 @@
                 collapse_duration: 0.2,
                 trigger: 'click',
                 trigger_linked: false,
-                extra_trigger_button: "<button class='extra-trigger'>+</button>",
-                navbar_collapse_duration: 0.5,
-                on_dropdown_shown: function () {
-                },
-                on_dropdown_hide: function () {
-                }
+                extra_trigger_button: "<button class='extra-trigger'><i class='icon icon-down-open-big'></i></button>",
+                navbar_collapse_duration: 0.5
 
             }, options);
 
@@ -58,9 +54,6 @@
             }
 
             if (self.settings.trigger == 'click') {
-                $(window).click(function () {
-                    self.close_all();
-                });
                 self.nav.dropdowns.forEach(function (dropdown) {
 
                     dropdown.trigger.on('click', function (event) {
@@ -165,10 +158,6 @@
             })
         }
 
-        close_other() {
-
-        }
-
         navbar_collapse() {
             let self = this;
 
@@ -209,17 +198,20 @@
             let dropdown = options.dropdown;
             let current_menu_height = dropdown.menu.outerHeight();
 
+
             TweenLite.set(dropdown.menu, {height: "auto"})
             TweenLite.from(dropdown.menu, self.settings.collapse_duration, {
                 height: current_menu_height,
                 onComplete: dropdown_shown
             })
 
+            dropdown.menu.trigger('show.lnav');
+
             dropdown.open = true;
             dropdown.nav_item.addClass('open');
 
             function dropdown_shown() {
-                self.settings.on_dropdown_shown()
+                dropdown.menu.trigger('shown.lnav')
             }
         }
 
@@ -227,12 +219,18 @@
             let self = this;
             let dropdown = options.dropdown;
 
-            self.settings.on_dropdown_hide()
+            TweenLite.to(dropdown.menu, self.settings.collapse_duration, {
+                height: 0,
+                onComplete: dropdown_hidden
+            })
 
-            TweenLite.to(dropdown.menu, self.settings.collapse_duration, {height: 0})
-
+            dropdown.menu.trigger('hide.lnav');
             dropdown.open = false;
             dropdown.nav_item.removeClass('open');
+
+            function dropdown_hidden(){
+                dropdown.menu.trigger('hidden.lnav');
+            }
         }
 
         is_touch_device() {
