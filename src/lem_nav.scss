@@ -103,12 +103,31 @@ $menu-font-color: white;
 
   &.submenu-animation-fade {
 
-    .sub-menu {
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
+    &.submenu-open {
+      .menu-item {
+        display: none;
+      }
 
+      .menu-item.open {
+        display: block;
+
+        >a {
+          display: none;
+        }
+
+        >.sub-menu li {
+          display: block;
+        }
+      }
+    }
+
+    .menu-item-has-children {
+      &:not(.open){
+        .sub-menu {
+          display: none;
+
+        }
+      }
     }
 
   }

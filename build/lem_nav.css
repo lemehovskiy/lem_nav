@@ -68,11 +68,16 @@
     .lem-navbar-collapse.animation-type-collapse {
       overflow: hidden;
       height: 0; } }
-  .lem-navbar-collapse.submenu-animation-fade .sub-menu {
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0; }
+  .lem-navbar-collapse.submenu-animation-fade.submenu-open .menu-item {
+    display: none; }
+  .lem-navbar-collapse.submenu-animation-fade.submenu-open .menu-item.open {
+    display: block; }
+    .lem-navbar-collapse.submenu-animation-fade.submenu-open .menu-item.open > a {
+      display: none; }
+    .lem-navbar-collapse.submenu-animation-fade.submenu-open .menu-item.open > .sub-menu li {
+      display: block; }
+  .lem-navbar-collapse.submenu-animation-fade .menu-item-has-children:not(.open) .sub-menu {
+    display: none; }
   .lem-navbar-collapse.submenu-animation-collapse .sub-menu {
     height: 0;
     overflow: hidden; }

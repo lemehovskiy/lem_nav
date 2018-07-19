@@ -190,6 +190,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         switch (self.settings.navbar_animation) {
                             case 'shift':
                                 TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20 });
+                                self.$navbar.removeClass('submenu-open');
                                 break;
 
                             case 'collapse':
@@ -237,7 +238,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 switch (self.settings.submenu_animation) {
                     case 'fade':
 
-                        console.log('asdf');
+                        var tl = new TimelineLite();
+                        tl.to(self.$navbar, 0.4, { scale: 1.01, opacity: 0, onComplete: function onComplete() {
+                                self.$navbar.addClass('submenu-open');
+                            } });
+                        tl.to(self.$navbar, 0.4, { scale: 1, opacity: 1, onComplete: function onComplete() {} });
+
                         break;
 
                     case 'collapse':

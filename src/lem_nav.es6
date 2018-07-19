@@ -199,6 +199,7 @@
                             TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration,
                                 {autoAlpha: 0, y: 20}
                             )
+                            self.$navbar.removeClass('submenu-open');
                             break;
 
                         case 'collapse':
@@ -252,7 +253,13 @@
             switch (self.settings.submenu_animation) {
                 case 'fade':
 
-                    console.log('asdf');
+                    let tl = new TimelineLite();
+                    tl.to(self.$navbar, 0.4, {scale: 1.01, opacity: 0, onComplete: function(){
+                        self.$navbar.addClass('submenu-open');
+                    }});
+                    tl.to(self.$navbar, 0.4, {scale: 1, opacity: 1, onComplete: function(){
+                    }});
+
                     break;
 
                 case 'collapse':
