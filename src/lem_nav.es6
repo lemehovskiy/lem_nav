@@ -66,10 +66,9 @@
                             self.close({
                                 dropdown: dropdown
                             })
-                            console.log('111');
                         }
                         else {
-
+                            self.close_all();
                             self.close_other_branches(dropdown.branch_id);
                             self.open({
                                 dropdown: dropdown
@@ -88,7 +87,6 @@
                             })
                         },
                         function () {
-                            console.log('222')
                             self.close({
                                 dropdown: dropdown
                             })
@@ -96,6 +94,27 @@
                     )
                 })
             }
+
+
+            self.nav.dropdowns.forEach(function (dropdown) {
+                dropdown.extra_trigger.on('click', function (event) {
+
+                    event.stopPropagation();
+                    if (dropdown.open) {
+
+                        self.close({
+                            dropdown: dropdown
+                        })
+                    }
+                    else {
+
+                        self.close_other_branches(dropdown.branch_id);
+                        self.open({
+                            dropdown: dropdown
+                        })
+                    }
+                })
+            })
 
             self.navbar_collapse();
         }
