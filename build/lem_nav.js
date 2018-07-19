@@ -40,7 +40,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 trigger_linked: false,
                 extra_trigger_button: "<button class='extra-trigger'><i class='icon icon-down-open-big'></i></button>",
                 navbar_collapse_duration: 0.5,
-                navbar_animation: 'shift'
+                navbar_animation: 'shift',
+                submenu_animation: 'fade'
 
             }, options);
 
@@ -233,11 +234,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var dropdown = options.dropdown;
                 var current_menu_height = dropdown.menu.outerHeight();
 
-                TweenLite.set(dropdown.menu, { height: "auto" });
-                TweenLite.from(dropdown.menu, self.settings.collapse_duration, {
-                    height: current_menu_height,
-                    onComplete: dropdown_shown
-                });
+                switch (self.settings.submenu_animation) {
+                    case 'fade':
+
+                        console.log('asdf');
+                        break;
+
+                    case 'collapse':
+                        TweenLite.set(dropdown.menu, { height: "auto" });
+                        TweenLite.from(dropdown.menu, self.settings.collapse_duration, {
+                            height: current_menu_height,
+                            onComplete: dropdown_shown
+                        });
+                        break;
+                }
 
                 dropdown.menu.trigger('show.lnav');
 
@@ -267,10 +277,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var self = this;
                 var dropdown = options.dropdown;
 
-                TweenLite.to(dropdown.menu, self.settings.collapse_duration, {
-                    height: 0,
-                    onComplete: dropdown_hidden
-                });
+                // TweenLite.to(dropdown.menu, self.settings.collapse_duration, {
+                //     height: 0,
+                //     onComplete: dropdown_hidden
+                // })
 
                 dropdown.menu.trigger('hide.lnav');
 

@@ -100,6 +100,24 @@ $menu-font-color: white;
       height: 0;
     }
   }
+
+  &.submenu-animation-fade {
+
+    .sub-menu {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+
+    }
+
+  }
+  &.submenu-animation-collapse {
+    .sub-menu {
+      height: 0;
+      overflow: hidden;
+    }
+  }
 }
 
 .navbar {
@@ -212,9 +230,7 @@ $menu-font-color: white;
   .sub-menu {
     background: rgba($menu-background-color, 0.9);
     color: $menu-font-color;
-    height: 0;
     min-width: 150px;
-    overflow: hidden;
 
     >li {
       >a {
