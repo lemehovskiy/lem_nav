@@ -1,11 +1,12 @@
 .lem-navbar-head {
-  background: #0E524A; }
+  background: #0E524A;
+  width: 100%; }
   .lem-navbar-head > .container {
     display: -ms-flexbox;
     display: flex;
+    width: 100%;
     -ms-flex-pack: justify;
-    justify-content: space-between;
-    width: 100%; }
+    justify-content: space-between; }
   .lem-navbar-head .lem-navbar-toggle {
     border: none;
     background: transparent; }
@@ -52,9 +53,14 @@
 
 .lem-navbar-collapse {
   background: #0E524A; }
-  .lem-navbar-collapse.animation-type-shift {
-    visibility: hidden;
-    opacity: 0; }
+  @media (min-width: 801px) {
+    .lem-navbar-collapse.animation-type-shift {
+      visibility: visible !important;
+      opacity: 1 !important; } }
+  @media (max-width: 800px) {
+    .lem-navbar-collapse.animation-type-shift {
+      visibility: hidden;
+      opacity: 0; } }
   @media (min-width: 801px) {
     .lem-navbar-collapse.animation-type-collapse {
       display: block !important; } }
@@ -63,16 +69,30 @@
       overflow: hidden;
       height: 0; } }
 
-header {
+.navbar {
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
-  z-index: 100; }
+  z-index: 100;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
   @media (min-width: 801px) {
-    header .lem-navbar-collapse:not(.trigger-click) .extra-trigger {
+    .navbar {
+      background: #0E524A; } }
+  @media (max-width: 800px) {
+    .navbar {
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap; } }
+  @media (max-width: 800px) {
+    .navbar .lem-navbar-collapse {
+      width: 100%; } }
+  @media (min-width: 801px) {
+    .navbar .lem-navbar-collapse:not(.trigger-click) .extra-trigger {
       display: none; } }
-  header .lem-navbar-collapse .extra-trigger {
+  .navbar .lem-navbar-collapse .extra-trigger {
     width: 30px;
     height: 30px;
     font-size: 30px;
@@ -80,15 +100,15 @@ header {
     right: 0;
     top: 0;
     display: block; }
-  header .container {
+  .navbar .container {
     padding: 0 20px; }
     @media (min-width: 801px) {
-      header .container {
+      .navbar .container {
         display: -ms-flexbox;
         display: flex;
         -ms-flex-pack: justify;
         justify-content: space-between; } }
-  header .logo {
+  .navbar .logo {
     font-size: 30px;
     text-transform: uppercase;
     font-weight: 700;
@@ -97,41 +117,41 @@ header {
     display: block;
     padding: 14px 0; }
   @media (min-width: 801px) {
-    header .nav {
+    .navbar .nav {
       display: -ms-flexbox;
       display: flex; } }
   @media (min-width: 801px) {
-    header .nav > .menu-item-has-children > .sub-menu {
+    .navbar .nav > .menu-item-has-children > .sub-menu {
       position: absolute;
       left: 0;
       top: 100%; } }
-  header .nav > .menu-item-has-children > .sub-menu .sub-menu {
+  .navbar .nav > .menu-item-has-children > .sub-menu .sub-menu {
     padding: 0 0 0 20px;
     white-space: nowrap; }
-  header .nav a {
+  .navbar .nav a {
     text-decoration: none;
     display: block; }
-  header .nav > li {
+  .navbar .nav > li {
     position: relative; }
     @media (max-width: 800px) {
-      header .nav > li {
+      .navbar .nav > li {
         padding: 0 40px 0 0; } }
-    header .nav > li > a {
+    .navbar .nav > li > a {
       color: white;
       padding: 20px 30px;
       display: block; }
       @media (max-width: 800px) {
-        header .nav > li > a {
+        .navbar .nav > li > a {
           padding: 20px 0; } }
-  header .menu-item-has-children {
+  .navbar .menu-item-has-children {
     position: relative; }
-  header .sub-menu {
+  .navbar .sub-menu {
     background: rgba(14, 82, 74, 0.9);
     color: white;
     height: 0;
     min-width: 150px;
     overflow: hidden; }
-    header .sub-menu > li > a {
+    .navbar .sub-menu > li > a {
       padding: 20px 30px;
       color: white; }
 

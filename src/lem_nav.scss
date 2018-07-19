@@ -4,11 +4,12 @@ $menu-font-color: white;
 
 .lem-navbar-head {
   background: $menu-background-color;
+  width: 100%;
 
   >.container {
     display: flex;
-    justify-content: space-between;
     width: 100%;
+    justify-content: space-between;
   }
 
   .lem-navbar-toggle {
@@ -76,8 +77,16 @@ $menu-font-color: white;
   background: $menu-background-color;
 
   &.animation-type-shift {
-    visibility: hidden;
-    opacity: 0;
+    @media (min-width: $mobile-menu-breakpoint + 1) {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+
+    @media (max-width: $mobile-menu-breakpoint) {
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 
   &.animation-type-collapse {
@@ -93,14 +102,27 @@ $menu-font-color: white;
   }
 }
 
-header {
+.navbar {
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   z-index: 100;
+  display: flex;
+  justify-content: space-between;
+
+  @media (min-width: $mobile-menu-breakpoint + 1) {
+    background: $menu-background-color;
+  }
+  @media (max-width: $mobile-menu-breakpoint) {
+    flex-wrap: wrap;
+  }
+
 
   .lem-navbar-collapse {
+    @media (max-width: $mobile-menu-breakpoint) {
+      width: 100%;
+    }
 
     &:not(.trigger-click) .extra-trigger{
       @media (min-width: $mobile-menu-breakpoint + 1px) {
