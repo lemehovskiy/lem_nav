@@ -3,9 +3,13 @@ $menu-background-color: #0E524A;
 $menu-font-color: white;
 
 .lem-navbar-head {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  background: $menu-background-color;
+
+  >.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
 
   .lem-navbar-toggle {
     @media (min-width: $mobile-menu-breakpoint + 1) {
@@ -69,14 +73,23 @@ $menu-font-color: white;
 }
 
 .lem-navbar-collapse {
+  background: $menu-background-color;
 
-  @media (min-width: $mobile-menu-breakpoint + 1) {
-    display: block !important;
+  &.animation-type-shift {
+    visibility: hidden;
+    opacity: 0;
   }
 
-  @media (max-width: $mobile-menu-breakpoint) {
-    overflow: hidden;
-    height: 0;
+  &.animation-type-collapse {
+    @media (min-width: $mobile-menu-breakpoint + 1) {
+      display: block !important;
+    }
+
+
+    @media (max-width: $mobile-menu-breakpoint) {
+      overflow: hidden;
+      height: 0;
+    }
   }
 }
 
@@ -86,7 +99,6 @@ header {
   top: 0;
   width: 100%;
   z-index: 100;
-  background: $menu-background-color;
 
   .lem-navbar-collapse {
 

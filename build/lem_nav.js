@@ -38,10 +38,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 collapse_duration: 0.2,
                 trigger: 'click',
                 trigger_linked: false,
-                extra_trigger_button: "<button class='extra-trigger'>+</button>",
+                extra_trigger_button: "<button class='extra-trigger'><i class='icon icon-down-open-big'></i></button>",
                 navbar_collapse_duration: 0.5,
-                on_dropdown_shown: function on_dropdown_shown() {},
-                on_dropdown_hide: function on_dropdown_hide() {}
+                navbar_animation: 'shift'
 
             }, options);
 
@@ -59,14 +58,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     $('body').addClass('is-touch');
                 }
 
-                if (this.settings.trigger == 'click') {
-                    self.$navbar.addClass('trigger-click');
-                }
-
                 if (self.settings.trigger == 'click') {
+                    self.$navbar.addClass('trigger-click');
+
                     $(window).click(function () {
                         self.close_all();
                     });
+
                     self.nav.dropdowns.forEach(function (dropdown) {
 
                         dropdown.trigger.on('click', function (event) {
@@ -78,7 +76,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                                     dropdown: dropdown
                                 });
                             } else {
-
+                                self.close_all();
                                 self.close_other_branches(dropdown.branch_id);
                                 self.open({
                                     dropdown: dropdown
@@ -100,7 +98,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     });
                 }
 
-                self.navbar_collapse();
+                if (self.settings.trigger_linked) {
+                    self.nav.dropdowns.forEach(function (dropdown) {
+                        dropdown.extra_trigger.on('click', function (event) {
+
+                            event.stopPropagation();
+                            if (dropdown.open) {
+
+                                self.close({
+                                    dropdown: dropdown
+                                });
+                            } else {
+
+                                self.close_other_branches(dropdown.branch_id);
+                                self.open({
+                                    dropdown: dropdown
+                                });
+                            }
+                        });
+                    });
+                }
+
+                self.initNavbarCollapse();
             }
         }, {
             key: 'set_dropdowns_data',
@@ -158,24 +177,38 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 });
             }
         }, {
-            key: 'close_other',
-            value: function close_other() {}
-        }, {
-            key: 'navbar_collapse',
-            value: function navbar_collapse() {
+            key: 'initNavbarCollapse',
+            value: function initNavbarCollapse() {
                 var self = this;
 
                 self.nav.navbar_trigger = $(self.settings.navbar_toggle);
 
                 self.nav.navbar_trigger.on('click', function () {
                     if (self.nav.navbar_open) {
-                        TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { height: 0 });
+
+                        switch (self.settings.navbar_animation) {
+                            case 'shift':
+                                TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20 });
+                                break;
+
+                            case 'collapse':
+                                TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { height: 0 });
+                                break;
+                        }
 
                         self.nav.navbar_open = false;
                         self.nav.navbar_trigger.removeClass('open');
                     } else {
-                        TweenLite.set(self.$navbar, { height: "auto" });
-                        TweenLite.from(self.$navbar, self.settings.navbar_collapse_duration, { height: 0 });
+                        switch (self.settings.navbar_animation) {
+                            case 'shift':
+                                TweenLite.fromTo(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0 });
+                                break;
+
+                            case 'collapse':
+                                TweenLite.set(self.$navbar, { height: "auto" });
+                                TweenLite.from(self.$navbar, self.settings.navbar_collapse_duration, { height: 0 });
+                                break;
+                        }
 
                         self.nav.navbar_open = true;
                         self.nav.navbar_trigger.addClass('open');
@@ -206,12 +239,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     onComplete: dropdown_shown
                 });
 
+                dropdown.menu.trigger('show.lnav');
+
                 dropdown.open = true;
                 dropdown.nav_item.addClass('open');
 
                 function dropdown_shown() {
-                    self.settings.on_dropdown_shown();
+                    dropdown.menu.trigger('shown.lnav');
                 }
+            }
+        }, {
+            key: 'close_all',
+            value: function close_all() {
+                var self = this;
+
+                self.nav.dropdowns.forEach(function (dropdown) {
+                    if (dropdown.open) {
+                        self.close({
+                            dropdown: dropdown
+                        });
+                    }
+                });
             }
         }, {
             key: 'close',
@@ -219,12 +267,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var self = this;
                 var dropdown = options.dropdown;
 
-                self.settings.on_dropdown_hide();
+                TweenLite.to(dropdown.menu, self.settings.collapse_duration, {
+                    height: 0,
+                    onComplete: dropdown_hidden
+                });
 
-                TweenLite.to(dropdown.menu, self.settings.collapse_duration, { height: 0 });
+                dropdown.menu.trigger('hide.lnav');
 
                 dropdown.open = false;
                 dropdown.nav_item.removeClass('open');
+
+                function dropdown_hidden() {
+                    dropdown.menu.trigger('hidden.lnav');
+                }
             }
         }, {
             key: 'is_touch_device',

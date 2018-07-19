@@ -33,7 +33,8 @@
                 trigger: 'click',
                 trigger_linked: false,
                 extra_trigger_button: "<button class='extra-trigger'><i class='icon icon-down-open-big'></i></button>",
-                navbar_collapse_duration: 0.5
+                navbar_collapse_duration: 0.5,
+                navbar_animation: 'shift'
 
             }, options);
 
@@ -95,28 +96,30 @@
                 })
             }
 
+            if (self.settings.trigger_linked) {
+                self.nav.dropdowns.forEach(function (dropdown) {
+                    dropdown.extra_trigger.on('click', function (event) {
 
-            self.nav.dropdowns.forEach(function (dropdown) {
-                dropdown.extra_trigger.on('click', function (event) {
+                        event.stopPropagation();
+                        if (dropdown.open) {
 
-                    event.stopPropagation();
-                    if (dropdown.open) {
+                            self.close({
+                                dropdown: dropdown
+                            })
+                        }
+                        else {
 
-                        self.close({
-                            dropdown: dropdown
-                        })
-                    }
-                    else {
-
-                        self.close_other_branches(dropdown.branch_id);
-                        self.open({
-                            dropdown: dropdown
-                        })
-                    }
+                            self.close_other_branches(dropdown.branch_id);
+                            self.open({
+                                dropdown: dropdown
+                            })
+                        }
+                    })
                 })
-            })
 
-            self.navbar_collapse();
+            }
+
+            self.initNavbarCollapse();
         }
 
         set_dropdowns_data() {
@@ -181,7 +184,7 @@
             })
         }
 
-        navbar_collapse() {
+        initNavbarCollapse() {
             let self = this;
 
             self.nav.navbar_trigger = $(self.settings.navbar_toggle);
@@ -189,15 +192,38 @@
 
             self.nav.navbar_trigger.on('click', function () {
                 if (self.nav.navbar_open) {
-                    TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, {height: 0})
+
+                    switch (self.settings.navbar_animation) {
+                        case 'shift':
+                            TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration,
+                                {autoAlpha: 0, y: 20}
+                            )
+                            break;
+
+                        case 'collapse':
+                            TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, {height: 0})
+                            break;
+                    }
 
                     self.nav.navbar_open = false;
                     self.nav.navbar_trigger.removeClass('open');
                 }
 
                 else {
-                    TweenLite.set(self.$navbar, {height: "auto"})
-                    TweenLite.from(self.$navbar, self.settings.navbar_collapse_duration, {height: 0})
+                    switch (self.settings.navbar_animation) {
+                        case 'shift':
+                            TweenLite.fromTo(self.$navbar, self.settings.navbar_collapse_duration,
+                                {autoAlpha: 0, y: 20},
+                                {autoAlpha: 1, y: 0}
+                            )
+                            break;
+
+                        case 'collapse':
+                            TweenLite.set(self.$navbar, {height: "auto"})
+                            TweenLite.from(self.$navbar, self.settings.navbar_collapse_duration, {height: 0})
+                            break;
+                    }
+
 
                     self.nav.navbar_open = true;
                     self.nav.navbar_trigger.addClass('open');
@@ -264,7 +290,7 @@
             dropdown.open = false;
             dropdown.nav_item.removeClass('open');
 
-            function dropdown_hidden(){
+            function dropdown_hidden() {
                 dropdown.menu.trigger('hidden.lnav');
             }
         }

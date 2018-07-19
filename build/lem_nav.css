@@ -1,9 +1,11 @@
 .lem-navbar-head {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  width: 100%; }
+  background: #0E524A; }
+  .lem-navbar-head > .container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    width: 100%; }
   .lem-navbar-head .lem-navbar-toggle {
     border: none;
     background: transparent; }
@@ -48,22 +50,25 @@
       .lem-navbar-head .lem-navbar-toggle .animate-burger .bottom {
         bottom: 0; }
 
-@media (min-width: 801px) {
-  .lem-navbar-collapse {
-    display: block !important; } }
-
-@media (max-width: 800px) {
-  .lem-navbar-collapse {
-    overflow: hidden;
-    height: 0; } }
+.lem-navbar-collapse {
+  background: #0E524A; }
+  .lem-navbar-collapse.animation-type-shift {
+    visibility: hidden;
+    opacity: 0; }
+  @media (min-width: 801px) {
+    .lem-navbar-collapse.animation-type-collapse {
+      display: block !important; } }
+  @media (max-width: 800px) {
+    .lem-navbar-collapse.animation-type-collapse {
+      overflow: hidden;
+      height: 0; } }
 
 header {
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
-  z-index: 100;
-  background: #0E524A; }
+  z-index: 100; }
   @media (min-width: 801px) {
     header .lem-navbar-collapse:not(.trigger-click) .extra-trigger {
       display: none; } }
