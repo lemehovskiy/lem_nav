@@ -35,9 +35,17 @@
                 extra_trigger_button: "<button class='extra-trigger'><i class='icon icon-down-open-big'></i></button>",
                 navbar_collapse_duration: 0.5,
                 navbar_animation: 'shift',
-                submenu_animation: 'fade'
+                submenu_animation: 'fade',
+                mobileBreakPoint: 800
 
             }, options);
+
+            self.state = {
+                isSubmenuOpen: false,
+                currentOpenSubmenu: null
+            }
+
+            self.$submenuBackBtn = null;
 
             self.init();
         }
@@ -51,30 +59,48 @@
                 $('body').addClass('is-touch');
             }
 
+            if (self.settings.submenu_animation == 'fade') {
+                self.initBackToParent();
+            }
+
             if (self.settings.trigger == 'click') {
                 self.$navbar.addClass('trigger-click');
 
-                $(window).click(function () {
-                    self.close_all();
-                });
+                // $(window).click(function () {
+                //     self.close_all();
+                // });
 
+                console.log(self.nav.dropdowns);
                 self.nav.dropdowns.forEach(function (dropdown) {
 
                     dropdown.trigger.on('click', function (event) {
 
                         event.stopPropagation();
                         if (dropdown.open) {
-
-                            self.close({
-                                dropdown: dropdown
-                            })
+                            
+                            if (self.isDesktop()) {
+                                self.close({
+                                    dropdown: dropdown
+                                })   
+                            }
+                            else {
+                                
+                            }
                         }
                         else {
-                            self.close_all();
-                            self.close_other_branches(dropdown.branch_id);
-                            self.open({
-                                dropdown: dropdown
-                            })
+                            if (self.isDesktop()) {
+                                self.close_all();
+                                self.close_other_branches(dropdown.branch_id);
+                                self.openSubmenu({
+                                    dropdown: dropdown
+                                })
+                            }
+                            else {
+                                console.log('asdf');
+                                self.switchFadeSubmenu({
+                                    dropdown: dropdown
+                                });
+                            }
                         }
                     })
                 })
@@ -84,12 +110,12 @@
                 self.nav.dropdowns.forEach(function (dropdown) {
                     dropdown.trigger.hover(
                         function () {
-                            self.open({
+                            self.openSubmenu({
                                 dropdown: dropdown
                             })
                         },
                         function () {
-                            self.close({
+                            self.openSubmenu({
                                 dropdown: dropdown
                             })
                         }
@@ -102,7 +128,7 @@
                     dropdown.extra_trigger.on('click', function (event) {
 
                         event.stopPropagation();
-                        if (dropdown.open) {
+                        if (dropdown.openSubmenu) {
 
                             self.close({
                                 dropdown: dropdown
@@ -111,7 +137,7 @@
                         else {
 
                             self.close_other_branches(dropdown.branch_id);
-                            self.open({
+                            self.openSubMenu({
                                 dropdown: dropdown
                             })
                         }
@@ -122,6 +148,51 @@
 
             self.initNavbarCollapse();
         }
+        
+        isDesktop(){
+            return $(window).width() > this.settings.mobileBreakPoint;
+        }
+
+        initBackToParent() {
+            let self = this;
+
+            self.$submenuBackBtn = $('<li class="sub-menu-back-btn">Back</li>');
+            self.$navbar.find('.nav').prepend(self.$submenuBackBtn);
+
+            self.$submenuBackBtn.on('click', function () {
+
+                let currentMenuLv = self.state.currentOpenSubmenu.menu_lv;
+                let currentMenuBranchID = self.state.currentOpenSubmenu.branch_id;
+
+                console.log(currentMenuLv);
+                console.log(currentMenuBranchID);
+
+                if (currentMenuLv > 1) {
+                    console.log(currentMenuLv);
+                    console.log(currentMenuBranchID);
+
+                    self.nav.dropdowns.forEach(function (submenu) {
+                        if (submenu.branch_id == currentMenuBranchID && submenu.menu_lv == currentMenuLv - 1) {
+                            self.openSubMenu({
+                                dropdown: submenu
+                            })
+                        }
+                    })
+                }
+                else {
+                    console.log('close');
+                    self.nav.dropdowns.forEach(function (submenu) {
+                        if (submenu.open) {
+                            submenu.open = false;
+                            submenu.nav_item.removeClass('open');
+                        }
+                    })
+
+                    self.$navbar.removeClass('submenu-open');
+                }
+            })
+        }
+
 
         set_dropdowns_data() {
             let self = this;
@@ -135,21 +206,19 @@
                         branch_id: index
                     }
                 );
-
                 self.nav.dropdowns.push(sub_menu);
-
             });
 
 
             function get_submenu(options) {
-
                 let nested_submenu = {
                     nav_item: options.$nav_item,
                     trigger: options.$nav_item,
                     menu: options.$nav_item.find('>.sub-menu'),
                     menu_items: options.$nav_item.find('>.sub-menu >li'),
                     menu_lv: options.menu_lv,
-                    branch_id: options.branch_id
+                    branch_id: options.branch_id,
+                    open: false
                 }
 
 
@@ -168,9 +237,7 @@
                 });
 
                 return nested_submenu
-
             }
-
         }
 
         close_other_branches(current_branch_id) {
@@ -190,47 +257,57 @@
 
             self.nav.navbar_trigger = $(self.settings.navbar_toggle);
 
-
             self.nav.navbar_trigger.on('click', function () {
                 if (self.nav.navbar_open) {
-
-                    switch (self.settings.navbar_animation) {
-                        case 'shift':
-                            TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration,
-                                {autoAlpha: 0, y: 20}
-                            )
-                            self.$navbar.removeClass('submenu-open');
-                            break;
-
-                        case 'collapse':
-                            TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, {height: 0})
-                            break;
-                    }
-
-                    self.nav.navbar_open = false;
-                    self.nav.navbar_trigger.removeClass('open');
+                    self.closeNavbar();
                 }
 
                 else {
-                    switch (self.settings.navbar_animation) {
-                        case 'shift':
-                            TweenLite.fromTo(self.$navbar, self.settings.navbar_collapse_duration,
-                                {autoAlpha: 0, y: 20},
-                                {autoAlpha: 1, y: 0}
-                            )
-                            break;
-
-                        case 'collapse':
-                            TweenLite.set(self.$navbar, {height: "auto"})
-                            TweenLite.from(self.$navbar, self.settings.navbar_collapse_duration, {height: 0})
-                            break;
-                    }
-
-
-                    self.nav.navbar_open = true;
-                    self.nav.navbar_trigger.addClass('open');
+                    self.openNavbar();
                 }
             })
+        }
+
+        openNavbar() {
+            let self = this;
+
+            switch (self.settings.navbar_animation) {
+                case 'shift':
+                    TweenLite.fromTo(self.$navbar, self.settings.navbar_collapse_duration,
+                        {autoAlpha: 0, y: 20},
+                        {autoAlpha: 1, y: 0}
+                    )
+                    break;
+
+                case 'collapse':
+                    TweenLite.set(self.$navbar, {height: "auto"})
+                    TweenLite.from(self.$navbar, self.settings.navbar_collapse_duration, {height: 0})
+                    break;
+            }
+
+
+            self.nav.navbar_open = true;
+            self.nav.navbar_trigger.addClass('open');
+        }
+
+        closeNavbar() {
+            let self = this;
+
+            switch (self.settings.navbar_animation) {
+                case 'shift':
+                    TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration,
+                        {autoAlpha: 0, y: 20}
+                    )
+                    self.$navbar.removeClass('submenu-open');
+                    break;
+
+                case 'collapse':
+                    TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, {height: 0})
+                    break;
+            }
+
+            self.nav.navbar_open = false;
+            self.nav.navbar_trigger.removeClass('open');
         }
 
         extra_trigger($nav_item) {
@@ -244,33 +321,66 @@
             return $trigger;
         }
 
-        open(options) {
+        switchFadeSubmenu(options) {
+            let self = this;
+            let currentDropdown = options.dropdown;
+
+            if (!self.state.isSubmenuOpen) {
+                self.state.isSubmenuOpen = true;
+                self.$navbar.addClass('submenu-open');
+            }
+
+            // if (currentDropdown.menu_lv > 1) {
+            self.nav.dropdowns.forEach(function (dropdown) {
+                if (currentDropdown.branch_id == dropdown.branch_id && dropdown.menu_lv < currentDropdown.menu_lv) {
+                    dropdown.nav_item.addClass('nested-menu-open');
+                }
+                else {
+                    dropdown.nav_item.removeClass('nested-menu-open');
+                }
+            })
+            // }
+
+            let tl = new TimelineLite();
+            tl.to(self.$navbar, 0.2, {
+                scale: 1.01, opacity: 0, onComplete: function () {
+                    self.$navbar.addClass('submenu-open');
+
+                    self.nav.dropdowns.forEach(function (submenu) {
+                        submenu.nav_item.removeClass('open');
+                        submenu.open = true;
+                    })
+
+                    dropdown_shown();
+                }
+            });
+            tl.to(self.$navbar, 0.2, {
+                scale: 1, opacity: 1
+            });
+          
+
+            function dropdown_shown() {
+                currentDropdown.menu.trigger('shown.lnav')
+                currentDropdown.menu.trigger('show.lnav');
+
+                currentDropdown.open = true;
+                currentDropdown.nav_item.addClass('open');
+
+                self.state.currentOpenSubmenu = currentDropdown;
+            }
+        }
+
+        openSubmenu(options) {
             let self = this;
             let dropdown = options.dropdown;
             let current_menu_height = dropdown.menu.outerHeight();
 
 
-            switch (self.settings.submenu_animation) {
-                case 'fade':
-
-                    let tl = new TimelineLite();
-                    tl.to(self.$navbar, 0.4, {scale: 1.01, opacity: 0, onComplete: function(){
-                        self.$navbar.addClass('submenu-open');
-                    }});
-                    tl.to(self.$navbar, 0.4, {scale: 1, opacity: 1, onComplete: function(){
-                    }});
-
-                    break;
-
-                case 'collapse':
-                    TweenLite.set(dropdown.menu, {height: "auto"})
-                    TweenLite.from(dropdown.menu, self.settings.collapse_duration, {
-                        height: current_menu_height,
-                        onComplete: dropdown_shown
-                    })
-                    break;
-            }
-
+            TweenLite.set(dropdown.menu, {height: "auto"})
+            TweenLite.from(dropdown.menu, self.settings.collapse_duration, {
+                height: current_menu_height,
+                onComplete: dropdown_shown
+            })
 
             dropdown.menu.trigger('show.lnav');
 
@@ -298,10 +408,10 @@
             let self = this;
             let dropdown = options.dropdown;
 
-            // TweenLite.to(dropdown.menu, self.settings.collapse_duration, {
-            //     height: 0,
-            //     onComplete: dropdown_hidden
-            // })
+            TweenLite.to(dropdown.menu, self.settings.collapse_duration, {
+                height: 0,
+                onComplete: dropdown_hidden
+            })
 
             dropdown.menu.trigger('hide.lnav');
 

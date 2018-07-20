@@ -41,9 +41,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 extra_trigger_button: "<button class='extra-trigger'><i class='icon icon-down-open-big'></i></button>",
                 navbar_collapse_duration: 0.5,
                 navbar_animation: 'shift',
-                submenu_animation: 'fade'
+                submenu_animation: 'fade',
+                mobileBreakPoint: 800
 
             }, options);
+
+            self.state = {
+                isSubmenuOpen: false,
+                currentOpenSubmenu: null
+            };
+
+            self.$submenuBackBtn = null;
 
             self.init();
         }
@@ -59,13 +67,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     $('body').addClass('is-touch');
                 }
 
+                if (self.settings.submenu_animation == 'fade') {
+                    self.initBackToParent();
+                }
+
                 if (self.settings.trigger == 'click') {
                     self.$navbar.addClass('trigger-click');
 
-                    $(window).click(function () {
-                        self.close_all();
-                    });
+                    // $(window).click(function () {
+                    //     self.close_all();
+                    // });
 
+                    console.log(self.nav.dropdowns);
                     self.nav.dropdowns.forEach(function (dropdown) {
 
                         dropdown.trigger.on('click', function (event) {
@@ -73,26 +86,35 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             event.stopPropagation();
                             if (dropdown.open) {
 
-                                self.close({
-                                    dropdown: dropdown
-                                });
+                                if (self.isDesktop()) {
+                                    self.close({
+                                        dropdown: dropdown
+                                    });
+                                } else {}
                             } else {
-                                self.close_all();
-                                self.close_other_branches(dropdown.branch_id);
-                                self.open({
-                                    dropdown: dropdown
-                                });
+                                if (self.isDesktop()) {
+                                    self.close_all();
+                                    self.close_other_branches(dropdown.branch_id);
+                                    self.openSubmenu({
+                                        dropdown: dropdown
+                                    });
+                                } else {
+                                    console.log('asdf');
+                                    self.switchFadeSubmenu({
+                                        dropdown: dropdown
+                                    });
+                                }
                             }
                         });
                     });
                 } else if (self.settings.trigger == 'hover' && !self.is_touch_device()) {
                     self.nav.dropdowns.forEach(function (dropdown) {
                         dropdown.trigger.hover(function () {
-                            self.open({
+                            self.openSubmenu({
                                 dropdown: dropdown
                             });
                         }, function () {
-                            self.close({
+                            self.openSubmenu({
                                 dropdown: dropdown
                             });
                         });
@@ -104,7 +126,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         dropdown.extra_trigger.on('click', function (event) {
 
                             event.stopPropagation();
-                            if (dropdown.open) {
+                            if (dropdown.openSubmenu) {
 
                                 self.close({
                                     dropdown: dropdown
@@ -112,7 +134,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             } else {
 
                                 self.close_other_branches(dropdown.branch_id);
-                                self.open({
+                                self.openSubMenu({
                                     dropdown: dropdown
                                 });
                             }
@@ -121,6 +143,51 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
 
                 self.initNavbarCollapse();
+            }
+        }, {
+            key: 'isDesktop',
+            value: function isDesktop() {
+                return $(window).width() > this.settings.mobileBreakPoint;
+            }
+        }, {
+            key: 'initBackToParent',
+            value: function initBackToParent() {
+                var self = this;
+
+                self.$submenuBackBtn = $('<li class="sub-menu-back-btn">Back</li>');
+                self.$navbar.find('.nav').prepend(self.$submenuBackBtn);
+
+                self.$submenuBackBtn.on('click', function () {
+
+                    var currentMenuLv = self.state.currentOpenSubmenu.menu_lv;
+                    var currentMenuBranchID = self.state.currentOpenSubmenu.branch_id;
+
+                    console.log(currentMenuLv);
+                    console.log(currentMenuBranchID);
+
+                    if (currentMenuLv > 1) {
+                        console.log(currentMenuLv);
+                        console.log(currentMenuBranchID);
+
+                        self.nav.dropdowns.forEach(function (submenu) {
+                            if (submenu.branch_id == currentMenuBranchID && submenu.menu_lv == currentMenuLv - 1) {
+                                self.openSubMenu({
+                                    dropdown: submenu
+                                });
+                            }
+                        });
+                    } else {
+                        console.log('close');
+                        self.nav.dropdowns.forEach(function (submenu) {
+                            if (submenu.open) {
+                                submenu.open = false;
+                                submenu.nav_item.removeClass('open');
+                            }
+                        });
+
+                        self.$navbar.removeClass('submenu-open');
+                    }
+                });
             }
         }, {
             key: 'set_dropdowns_data',
@@ -134,19 +201,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         menu_lv: 1,
                         branch_id: index
                     });
-
                     self.nav.dropdowns.push(sub_menu);
                 });
 
                 function get_submenu(options) {
-
                     var nested_submenu = {
                         nav_item: options.$nav_item,
                         trigger: options.$nav_item,
                         menu: options.$nav_item.find('>.sub-menu'),
                         menu_items: options.$nav_item.find('>.sub-menu >li'),
                         menu_lv: options.menu_lv,
-                        branch_id: options.branch_id
+                        branch_id: options.branch_id,
+                        open: false
                     };
 
                     if (self.settings.trigger_linked) {
@@ -186,36 +252,49 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 self.nav.navbar_trigger.on('click', function () {
                     if (self.nav.navbar_open) {
-
-                        switch (self.settings.navbar_animation) {
-                            case 'shift':
-                                TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20 });
-                                self.$navbar.removeClass('submenu-open');
-                                break;
-
-                            case 'collapse':
-                                TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { height: 0 });
-                                break;
-                        }
-
-                        self.nav.navbar_open = false;
-                        self.nav.navbar_trigger.removeClass('open');
+                        self.closeNavbar();
                     } else {
-                        switch (self.settings.navbar_animation) {
-                            case 'shift':
-                                TweenLite.fromTo(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0 });
-                                break;
-
-                            case 'collapse':
-                                TweenLite.set(self.$navbar, { height: "auto" });
-                                TweenLite.from(self.$navbar, self.settings.navbar_collapse_duration, { height: 0 });
-                                break;
-                        }
-
-                        self.nav.navbar_open = true;
-                        self.nav.navbar_trigger.addClass('open');
+                        self.openNavbar();
                     }
                 });
+            }
+        }, {
+            key: 'openNavbar',
+            value: function openNavbar() {
+                var self = this;
+
+                switch (self.settings.navbar_animation) {
+                    case 'shift':
+                        TweenLite.fromTo(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0 });
+                        break;
+
+                    case 'collapse':
+                        TweenLite.set(self.$navbar, { height: "auto" });
+                        TweenLite.from(self.$navbar, self.settings.navbar_collapse_duration, { height: 0 });
+                        break;
+                }
+
+                self.nav.navbar_open = true;
+                self.nav.navbar_trigger.addClass('open');
+            }
+        }, {
+            key: 'closeNavbar',
+            value: function closeNavbar() {
+                var self = this;
+
+                switch (self.settings.navbar_animation) {
+                    case 'shift':
+                        TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20 });
+                        self.$navbar.removeClass('submenu-open');
+                        break;
+
+                    case 'collapse':
+                        TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { height: 0 });
+                        break;
+                }
+
+                self.nav.navbar_open = false;
+                self.nav.navbar_trigger.removeClass('open');
             }
         }, {
             key: 'extra_trigger',
@@ -229,31 +308,65 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 return $trigger;
             }
         }, {
-            key: 'open',
-            value: function open(options) {
+            key: 'switchFadeSubmenu',
+            value: function switchFadeSubmenu(options) {
+                var self = this;
+                var currentDropdown = options.dropdown;
+
+                if (!self.state.isSubmenuOpen) {
+                    self.state.isSubmenuOpen = true;
+                    self.$navbar.addClass('submenu-open');
+                }
+
+                // if (currentDropdown.menu_lv > 1) {
+                self.nav.dropdowns.forEach(function (dropdown) {
+                    if (currentDropdown.branch_id == dropdown.branch_id && dropdown.menu_lv < currentDropdown.menu_lv) {
+                        dropdown.nav_item.addClass('nested-menu-open');
+                    } else {
+                        dropdown.nav_item.removeClass('nested-menu-open');
+                    }
+                });
+                // }
+
+                var tl = new TimelineLite();
+                tl.to(self.$navbar, 0.2, {
+                    scale: 1.01, opacity: 0, onComplete: function onComplete() {
+                        self.$navbar.addClass('submenu-open');
+
+                        self.nav.dropdowns.forEach(function (submenu) {
+                            submenu.nav_item.removeClass('open');
+                            submenu.open = true;
+                        });
+
+                        dropdown_shown();
+                    }
+                });
+                tl.to(self.$navbar, 0.2, {
+                    scale: 1, opacity: 1
+                });
+
+                function dropdown_shown() {
+                    currentDropdown.menu.trigger('shown.lnav');
+                    currentDropdown.menu.trigger('show.lnav');
+
+                    currentDropdown.open = true;
+                    currentDropdown.nav_item.addClass('open');
+
+                    self.state.currentOpenSubmenu = currentDropdown;
+                }
+            }
+        }, {
+            key: 'openSubmenu',
+            value: function openSubmenu(options) {
                 var self = this;
                 var dropdown = options.dropdown;
                 var current_menu_height = dropdown.menu.outerHeight();
 
-                switch (self.settings.submenu_animation) {
-                    case 'fade':
-
-                        var tl = new TimelineLite();
-                        tl.to(self.$navbar, 0.4, { scale: 1.01, opacity: 0, onComplete: function onComplete() {
-                                self.$navbar.addClass('submenu-open');
-                            } });
-                        tl.to(self.$navbar, 0.4, { scale: 1, opacity: 1, onComplete: function onComplete() {} });
-
-                        break;
-
-                    case 'collapse':
-                        TweenLite.set(dropdown.menu, { height: "auto" });
-                        TweenLite.from(dropdown.menu, self.settings.collapse_duration, {
-                            height: current_menu_height,
-                            onComplete: dropdown_shown
-                        });
-                        break;
-                }
+                TweenLite.set(dropdown.menu, { height: "auto" });
+                TweenLite.from(dropdown.menu, self.settings.collapse_duration, {
+                    height: current_menu_height,
+                    onComplete: dropdown_shown
+                });
 
                 dropdown.menu.trigger('show.lnav');
 
@@ -283,10 +396,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var self = this;
                 var dropdown = options.dropdown;
 
-                // TweenLite.to(dropdown.menu, self.settings.collapse_duration, {
-                //     height: 0,
-                //     onComplete: dropdown_hidden
-                // })
+                TweenLite.to(dropdown.menu, self.settings.collapse_duration, {
+                    height: 0,
+                    onComplete: dropdown_hidden
+                });
 
                 dropdown.menu.trigger('hide.lnav');
 

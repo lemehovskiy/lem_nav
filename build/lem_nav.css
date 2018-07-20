@@ -68,16 +68,35 @@
     .lem-navbar-collapse.animation-type-collapse {
       overflow: hidden;
       height: 0; } }
-  .lem-navbar-collapse.submenu-animation-fade.submenu-open .menu-item {
-    display: none; }
-  .lem-navbar-collapse.submenu-animation-fade.submenu-open .menu-item.open {
-    display: block; }
-    .lem-navbar-collapse.submenu-animation-fade.submenu-open .menu-item.open > a {
-      display: none; }
-    .lem-navbar-collapse.submenu-animation-fade.submenu-open .menu-item.open > .sub-menu li {
+  @media (min-width: 801px) {
+    .lem-navbar-collapse.submenu-animation-fade .sub-menu-back-btn {
+      display: none !important; } }
+  @media (max-width: 800px) {
+    .lem-navbar-collapse.submenu-animation-fade .sub-menu-back-btn {
+      display: none;
+      padding: 10px; }
+    .lem-navbar-collapse.submenu-animation-fade.submenu-open .sub-menu-back-btn {
       display: block; }
-  .lem-navbar-collapse.submenu-animation-fade .menu-item-has-children:not(.open) .sub-menu {
-    display: none; }
+    .lem-navbar-collapse.submenu-animation-fade.submenu-open li {
+      display: none; }
+      .lem-navbar-collapse.submenu-animation-fade.submenu-open li.nested-menu-open {
+        display: block; }
+        .lem-navbar-collapse.submenu-animation-fade.submenu-open li.nested-menu-open > a {
+          display: none; }
+        .lem-navbar-collapse.submenu-animation-fade.submenu-open li.nested-menu-open > .sub-menu {
+          display: block; }
+      .lem-navbar-collapse.submenu-animation-fade.submenu-open li.open {
+        display: block; }
+        .lem-navbar-collapse.submenu-animation-fade.submenu-open li.open > a {
+          display: none; }
+        .lem-navbar-collapse.submenu-animation-fade.submenu-open li.open > .sub-menu {
+          display: block; }
+          .lem-navbar-collapse.submenu-animation-fade.submenu-open li.open > .sub-menu > li {
+            display: block; }
+    .lem-navbar-collapse.submenu-animation-fade .sub-menu {
+      display: none; }
+    .lem-navbar-collapse.submenu-animation-fade .menu-item-has-children > a:after {
+      content: '>'; } }
   .lem-navbar-collapse.submenu-animation-collapse .sub-menu {
     height: 0;
     overflow: hidden; }

@@ -6,7 +6,7 @@ $menu-font-color: white;
   background: $menu-background-color;
   width: 100%;
 
-  >.container {
+  > .container {
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -82,7 +82,6 @@ $menu-font-color: white;
       opacity: 1 !important;
     }
 
-
     @media (max-width: $mobile-menu-breakpoint) {
       visibility: hidden;
       opacity: 0;
@@ -94,7 +93,6 @@ $menu-font-color: white;
       display: block !important;
     }
 
-
     @media (max-width: $mobile-menu-breakpoint) {
       overflow: hidden;
       height: 0;
@@ -102,34 +100,96 @@ $menu-font-color: white;
   }
 
   &.submenu-animation-fade {
+    @media (min-width: $mobile-menu-breakpoint + 1) {
+      .sub-menu-back-btn {
+        display: none !important;
+      }
+    }
 
-    &.submenu-open {
-      .menu-item {
+    @media (max-width: $mobile-menu-breakpoint) {
+
+      .sub-menu-back-btn {
+        display: none;
+        padding: 10px;
+      }
+
+      &.submenu-open {
+        .sub-menu-back-btn {
+          display: block;
+        }
+
+        li {
+          display: none;
+
+          &.nested-menu-open {
+            display: block;
+
+            > a {
+              display: none;
+            }
+
+            > .sub-menu {
+              display: block;
+            }
+          }
+
+          &.open {
+            display: block;
+
+            > a {
+              display: none;
+            }
+            > .sub-menu {
+              display: block;
+              > li {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+
+      .sub-menu {
         display: none;
       }
 
-      .menu-item.open {
-        display: block;
+      &.submenu-open {
 
-        >a {
-          display: none;
-        }
-
-        >.sub-menu li {
-          display: block;
+      }
+      //  .menu-item {
+      //    display: none;
+      //
+      //    &.open {
+      //      display: block;
+      //    }
+      //  }
+      //
+      //  .menu-item.open {
+      //    > a {
+      //      display: none;
+      //    }
+      //
+      //    > .sub-menu {
+      //      display: block;
+      //      > li {
+      //        display: block;
+      //      }
+      //    }
+      //  }
+      //}
+      //
+      .menu-item-has-children {
+        > a {
+          &:after {
+            content: '>';
+          }
         }
       }
+      //
+      //.sub-menu {
+      //  //display: none;
+      //}
     }
-
-    .menu-item-has-children {
-      &:not(.open){
-        .sub-menu {
-          display: none;
-
-        }
-      }
-    }
-
   }
   &.submenu-animation-collapse {
     .sub-menu {
@@ -155,13 +215,12 @@ $menu-font-color: white;
     flex-wrap: wrap;
   }
 
-
   .lem-navbar-collapse {
     @media (max-width: $mobile-menu-breakpoint) {
       width: 100%;
     }
 
-    &:not(.trigger-click) .extra-trigger{
+    &:not(.trigger-click) .extra-trigger {
       @media (min-width: $mobile-menu-breakpoint + 1px) {
         display: none;
       }
@@ -202,8 +261,8 @@ $menu-font-color: white;
       display: flex;
     }
 
-    >.menu-item-has-children {
-      >.sub-menu {
+    > .menu-item-has-children {
+      > .sub-menu {
         @media (min-width: $mobile-menu-breakpoint + 1) {
           position: absolute;
           left: 0;
@@ -217,20 +276,18 @@ $menu-font-color: white;
       }
     }
 
-
     a {
       text-decoration: none;
       display: block;
     }
 
-
-    >li {
+    > li {
       position: relative;
       @media (max-width: $mobile-menu-breakpoint) {
         padding: 0 40px 0 0;
       }
 
-      >a {
+      > a {
         color: $menu-font-color;
         padding: 20px 30px;
         display: block;
@@ -251,8 +308,8 @@ $menu-font-color: white;
     color: $menu-font-color;
     min-width: 150px;
 
-    >li {
-      >a {
+    > li {
+      > a {
         padding: 20px 30px;
         color: $menu-font-color;
       }
