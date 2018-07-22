@@ -80,6 +80,7 @@ $menu-font-color: white;
     @media (min-width: $mobile-menu-breakpoint + 1) {
       visibility: visible !important;
       opacity: 1 !important;
+      transform: translate(0, 0) !important;
     }
 
     @media (max-width: $mobile-menu-breakpoint) {
@@ -99,7 +100,7 @@ $menu-font-color: white;
     }
   }
 
-  &.submenu-animation-fade {
+  &.submenu-animation-mobile-fade {
     @media (min-width: $mobile-menu-breakpoint + 1) {
       .sub-menu-back-btn {
         display: none !important;
@@ -156,28 +157,7 @@ $menu-font-color: white;
       &.submenu-open {
 
       }
-      //  .menu-item {
-      //    display: none;
-      //
-      //    &.open {
-      //      display: block;
-      //    }
-      //  }
-      //
-      //  .menu-item.open {
-      //    > a {
-      //      display: none;
-      //    }
-      //
-      //    > .sub-menu {
-      //      display: block;
-      //      > li {
-      //        display: block;
-      //      }
-      //    }
-      //  }
-      //}
-      //
+
       .menu-item-has-children {
         > a {
           &:after {
@@ -191,10 +171,12 @@ $menu-font-color: white;
       //}
     }
   }
-  &.submenu-animation-collapse {
-    .sub-menu {
-      height: 0;
-      overflow: hidden;
+  @media (min-width: $mobile-menu-breakpoint + 1px) {
+    &.submenu-animation-desktop-collapse {
+      .sub-menu {
+        height: 0;
+        overflow: hidden;
+      }
     }
   }
 }

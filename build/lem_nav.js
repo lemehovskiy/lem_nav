@@ -74,36 +74,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 if (self.settings.trigger == 'click') {
                     self.$navbar.addClass('trigger-click');
 
-                    // $(window).click(function () {
-                    //     self.close_all();
-                    // });
+                    $(window).click(function () {
+                        if (self.isDesktop()) {
+                            self.close_all();
+                        }
+                    });
 
-                    console.log(self.nav.dropdowns);
                     self.nav.dropdowns.forEach(function (dropdown) {
 
                         dropdown.trigger.on('click', function (event) {
 
                             event.stopPropagation();
-                            if (dropdown.open) {
 
-                                if (self.isDesktop()) {
+                            if (self.isDesktop()) {
+                                if (dropdown.open) {
                                     self.close({
                                         dropdown: dropdown
                                     });
-                                } else {}
-                            } else {
-                                if (self.isDesktop()) {
-                                    self.close_all();
+                                } else {
                                     self.close_other_branches(dropdown.branch_id);
                                     self.openSubmenu({
                                         dropdown: dropdown
                                     });
-                                } else {
-                                    console.log('asdf');
-                                    self.switchFadeSubmenu({
-                                        dropdown: dropdown
-                                    });
                                 }
+                            } else {
+                                self.switchFadeSubmenu({
+                                    dropdown: dropdown
+                                });
                             }
                         });
                     });
@@ -162,16 +159,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     var currentMenuLv = self.state.currentOpenSubmenu.menu_lv;
                     var currentMenuBranchID = self.state.currentOpenSubmenu.branch_id;
 
-                    console.log(currentMenuLv);
-                    console.log(currentMenuBranchID);
+                    // console.log(currentMenuLv);
+                    // console.log(currentMenuBranchID);
 
                     if (currentMenuLv > 1) {
-                        console.log(currentMenuLv);
-                        console.log(currentMenuBranchID);
+                        // console.log(currentMenuLv);
+                        // console.log(currentMenuBranchID);
 
                         self.nav.dropdowns.forEach(function (submenu) {
                             if (submenu.branch_id == currentMenuBranchID && submenu.menu_lv == currentMenuLv - 1) {
-                                self.openSubMenu({
+                                self.switchFadeSubmenu({
                                     dropdown: submenu
                                 });
                             }
@@ -284,8 +281,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 switch (self.settings.navbar_animation) {
                     case 'shift':
-                        TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20 });
-                        self.$navbar.removeClass('submenu-open');
+                        TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20, onComplete: function onComplete() {
+                                self.$navbar.removeClass('submenu-open');
+                            } });
                         break;
 
                     case 'collapse':

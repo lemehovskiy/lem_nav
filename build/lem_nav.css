@@ -56,7 +56,9 @@
   @media (min-width: 801px) {
     .lem-navbar-collapse.animation-type-shift {
       visibility: visible !important;
-      opacity: 1 !important; } }
+      opacity: 1 !important;
+      -ms-transform: translate(0, 0) !important;
+      transform: translate(0, 0) !important; } }
   @media (max-width: 800px) {
     .lem-navbar-collapse.animation-type-shift {
       visibility: hidden;
@@ -69,37 +71,38 @@
       overflow: hidden;
       height: 0; } }
   @media (min-width: 801px) {
-    .lem-navbar-collapse.submenu-animation-fade .sub-menu-back-btn {
+    .lem-navbar-collapse.submenu-animation-mobile-fade .sub-menu-back-btn {
       display: none !important; } }
   @media (max-width: 800px) {
-    .lem-navbar-collapse.submenu-animation-fade .sub-menu-back-btn {
+    .lem-navbar-collapse.submenu-animation-mobile-fade .sub-menu-back-btn {
       display: none;
       padding: 10px; }
-    .lem-navbar-collapse.submenu-animation-fade.submenu-open .sub-menu-back-btn {
+    .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open .sub-menu-back-btn {
       display: block; }
-    .lem-navbar-collapse.submenu-animation-fade.submenu-open li {
+    .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li {
       display: none; }
-      .lem-navbar-collapse.submenu-animation-fade.submenu-open li.nested-menu-open {
+      .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li.nested-menu-open {
         display: block; }
-        .lem-navbar-collapse.submenu-animation-fade.submenu-open li.nested-menu-open > a {
+        .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li.nested-menu-open > a {
           display: none; }
-        .lem-navbar-collapse.submenu-animation-fade.submenu-open li.nested-menu-open > .sub-menu {
+        .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li.nested-menu-open > .sub-menu {
           display: block; }
-      .lem-navbar-collapse.submenu-animation-fade.submenu-open li.open {
+      .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li.open {
         display: block; }
-        .lem-navbar-collapse.submenu-animation-fade.submenu-open li.open > a {
+        .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li.open > a {
           display: none; }
-        .lem-navbar-collapse.submenu-animation-fade.submenu-open li.open > .sub-menu {
+        .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li.open > .sub-menu {
           display: block; }
-          .lem-navbar-collapse.submenu-animation-fade.submenu-open li.open > .sub-menu > li {
+          .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li.open > .sub-menu > li {
             display: block; }
-    .lem-navbar-collapse.submenu-animation-fade .sub-menu {
+    .lem-navbar-collapse.submenu-animation-mobile-fade .sub-menu {
       display: none; }
-    .lem-navbar-collapse.submenu-animation-fade .menu-item-has-children > a:after {
+    .lem-navbar-collapse.submenu-animation-mobile-fade .menu-item-has-children > a:after {
       content: '>'; } }
-  .lem-navbar-collapse.submenu-animation-collapse .sub-menu {
-    height: 0;
-    overflow: hidden; }
+  @media (min-width: 801px) {
+    .lem-navbar-collapse.submenu-animation-desktop-collapse .sub-menu {
+      height: 0;
+      overflow: hidden; } }
 
 .navbar {
   position: fixed;
