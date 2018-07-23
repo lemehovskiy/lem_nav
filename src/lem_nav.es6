@@ -84,12 +84,16 @@
 
                         if (self.isDesktop()) {
                             if (dropdown.open) {
+
+                                console.log('close');
                                 self.close({
                                     dropdown: dropdown
                                 })
                             }
                             else {
                                 self.close_other_branches(dropdown.branch_id);
+                                console.log('open');
+
                                 self.openSubmenu({
                                     dropdown: dropdown
                                 })
@@ -284,11 +288,13 @@
 
         close_other_branches(current_branch_id) {
             let self = this;
+            
+            self.nav.dropdowns.forEach(function (submenu) {
+                if (submenu.open && !(submenu.branch_id == current_branch_id)){
+                    console.log(submenu.branch_id + '--' + current_branch_id);
 
-            self.nav.dropdowns.forEach(function (dropdown) {
-                if (dropdown.open && !dropdown.branch_id == current_branch_id) {
                     self.close({
-                        dropdown: dropdown
+                        dropdown: submenu
                     })
                 }
             })
@@ -440,6 +446,8 @@
 
         close_all() {
             let self = this;
+
+            console.log('close-all');
 
             self.nav.dropdowns.forEach(function (submenu) {
                 if (submenu.open) {

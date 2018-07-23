@@ -92,11 +92,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                             if (self.isDesktop()) {
                                 if (dropdown.open) {
+
+                                    console.log('close');
                                     self.close({
                                         dropdown: dropdown
                                     });
                                 } else {
                                     self.close_other_branches(dropdown.branch_id);
+                                    console.log('open');
+
                                     self.openSubmenu({
                                         dropdown: dropdown
                                     });
@@ -282,10 +286,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function close_other_branches(current_branch_id) {
                 var self = this;
 
-                self.nav.dropdowns.forEach(function (dropdown) {
-                    if (dropdown.open && !dropdown.branch_id == current_branch_id) {
+                self.nav.dropdowns.forEach(function (submenu) {
+                    if (submenu.open && !(submenu.branch_id == current_branch_id)) {
+                        console.log(submenu.branch_id + '--' + current_branch_id);
+
                         self.close({
-                            dropdown: dropdown
+                            dropdown: submenu
                         });
                     }
                 });
@@ -432,6 +438,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: 'close_all',
             value: function close_all() {
                 var self = this;
+
+                console.log('close-all');
 
                 self.nav.dropdowns.forEach(function (submenu) {
                     if (submenu.open) {
