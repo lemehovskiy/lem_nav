@@ -48,7 +48,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
             self.state = {
                 isSubmenuOpen: false,
-                currentOpenSubmenu: null
+                currentOpenSubmenu: null,
+                sizeMode: null
             };
 
             self.$submenuBackBtn = null;
@@ -66,6 +67,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 if (self.is_touch_device()) {
                     $('body').addClass('is-touch');
                 }
+
+                this.resize();
+                this.resizeHandler();
 
                 if (self.settings.submenu_animation == 'fade') {
                     self.initBackToParent();
@@ -140,6 +144,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
 
                 self.initNavbarCollapse();
+            }
+        }, {
+            key: 'resizeHandler',
+            value: function resizeHandler() {
+                var self = this;
+                $(window).resize(function () {
+                    if (this.resizeTO) clearTimeout(this.resizeTO);
+
+                    this.resizeTO = setTimeout(function () {
+                        self.resize();
+                    }, 500);
+                });
+            }
+        }, {
+            key: 'resize',
+            value: function resize() {
+                var ww = $(window).width();
+
+                if (ww > this.settings.mobileBreakPoint) {
+                    this.updateSizeMode('desktop');
+                } else {
+                    this.updateSizeMode('mobile');
+                }
+            }
+        }, {
+            key: 'updateSizeMode',
+            value: function updateSizeMode(resizeMode) {
+                if (resizeMode != this.state.sizeMode) {
+                    this.state.sizeMode = resizeMode;
+                    this.close_all();
+                }
             }
         }, {
             key: 'isDesktop',
@@ -294,11 +329,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function closeNavbar() {
                 var self = this;
 
+                self.close_all();
+
                 switch (self.settings.navbar_animation) {
                     case 'shift':
-                        TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, { autoAlpha: 0, y: 20, onComplete: function onComplete() {
+                        TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration, {
+                            autoAlpha: 0, y: 20, onComplete: function onComplete() {
                                 self.$navbar.removeClass('submenu-open');
-                            } });
+                            }
+                        });
                         break;
 
                     case 'collapse':
@@ -394,13 +433,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function close_all() {
                 var self = this;
 
-                self.nav.dropdowns.forEach(function (dropdown) {
-                    if (dropdown.open) {
+                self.nav.dropdowns.forEach(function (submenu) {
+                    if (submenu.open) {
                         self.close({
-                            dropdown: dropdown
+                            dropdown: submenu
                         });
+                        submenu.open = false;
+                        submenu.nav_item.removeClass('open');
                     }
                 });
+                self.$navbar.removeClass('submenu-open');
             }
         }, {
             key: 'close',

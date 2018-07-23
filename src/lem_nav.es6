@@ -42,7 +42,8 @@
 
             self.state = {
                 isSubmenuOpen: false,
-                currentOpenSubmenu: null
+                currentOpenSubmenu: null,
+                sizeMode: null
             }
 
             self.$submenuBackBtn = null;
@@ -58,6 +59,9 @@
             if (self.is_touch_device()) {
                 $('body').addClass('is-touch');
             }
+
+            this.resize();
+            this.resizeHandler();
 
             if (self.settings.submenu_animation == 'fade') {
                 self.initBackToParent();
@@ -143,6 +147,35 @@
             self.initNavbarCollapse();
         }
 
+        resizeHandler() {
+            let self = this;
+            $(window).resize(function () {
+                if (this.resizeTO) clearTimeout(this.resizeTO);
+
+                this.resizeTO = setTimeout(function () {
+                    self.resize();
+                }, 500);
+            });
+        }
+
+        resize(){
+            let ww = $(window).width();
+
+            if (ww > this.settings.mobileBreakPoint) {
+                this.updateSizeMode('desktop');
+            }
+            else {
+                this.updateSizeMode('mobile');
+            }
+        }
+
+        updateSizeMode(resizeMode) {
+            if (resizeMode != this.state.sizeMode) {
+                this.state.sizeMode = resizeMode;
+                this.close_all();
+            }
+        }
+
         isDesktop() {
             return $(window).width() > this.settings.mobileBreakPoint;
         }
@@ -179,7 +212,7 @@
             })
         }
 
-        closeFadeSubmenu(){
+        closeFadeSubmenu() {
             let self = this;
 
             let tl = new TimelineLite();
@@ -302,12 +335,16 @@
         closeNavbar() {
             let self = this;
 
+            self.close_all();
+
             switch (self.settings.navbar_animation) {
                 case 'shift':
                     TweenLite.to(self.$navbar, self.settings.navbar_collapse_duration,
-                        {autoAlpha: 0, y: 20, onComplete: function(){
+                        {
+                            autoAlpha: 0, y: 20, onComplete: function () {
                             self.$navbar.removeClass('submenu-open');
-                        }}
+                        }
+                        }
                     )
                     break;
 
@@ -404,13 +441,16 @@
         close_all() {
             let self = this;
 
-            self.nav.dropdowns.forEach(function (dropdown) {
-                if (dropdown.open) {
+            self.nav.dropdowns.forEach(function (submenu) {
+                if (submenu.open) {
                     self.close({
-                        dropdown: dropdown
+                        dropdown: submenu
                     })
+                    submenu.open = false;
+                    submenu.nav_item.removeClass('open');
                 }
             })
+            self.$navbar.removeClass('submenu-open');
         }
 
         close(options) {

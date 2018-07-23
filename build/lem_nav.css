@@ -96,7 +96,8 @@
           .lem-navbar-collapse.submenu-animation-mobile-fade.submenu-open li.open > .sub-menu > li {
             display: block; }
     .lem-navbar-collapse.submenu-animation-mobile-fade .sub-menu {
-      display: none; }
+      display: none;
+      height: auto !important; }
     .lem-navbar-collapse.submenu-animation-mobile-fade .menu-item-has-children > a:after {
       content: '>'; } }
   @media (min-width: 801px) {
