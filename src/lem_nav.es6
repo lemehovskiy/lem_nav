@@ -174,7 +174,18 @@
                     })
                 }
                 else {
-                    console.log('close');
+                    self.closeFadeSubmenu();
+                }
+            })
+        }
+
+        closeFadeSubmenu(){
+            let self = this;
+
+            let tl = new TimelineLite();
+            tl.to(self.$navbar, 0.2, {
+                scale: 1.02, opacity: 0, onComplete: function () {
+
                     self.nav.dropdowns.forEach(function (submenu) {
                         if (submenu.open) {
                             submenu.open = false;
@@ -184,7 +195,11 @@
 
                     self.$navbar.removeClass('submenu-open');
                 }
-            })
+            });
+            tl.to(self.$navbar, 0.2, {
+                scale: 1, opacity: 1
+            });
+
         }
 
 
@@ -322,7 +337,6 @@
 
             if (!self.state.isSubmenuOpen) {
                 self.state.isSubmenuOpen = true;
-                self.$navbar.addClass('submenu-open');
             }
 
             // if (currentDropdown.menu_lv > 1) {
@@ -338,9 +352,9 @@
 
             let tl = new TimelineLite();
             tl.to(self.$navbar, 0.2, {
-                scale: 1.01, opacity: 0, onComplete: function () {
-                    self.$navbar.addClass('submenu-open');
+                scale: 1.02, opacity: 0, onComplete: function () {
 
+                    self.$navbar.addClass('submenu-open');
                     self.nav.dropdowns.forEach(function (submenu) {
                         submenu.nav_item.removeClass('open');
                         submenu.open = true;

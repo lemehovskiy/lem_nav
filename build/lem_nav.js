@@ -174,7 +174,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             }
                         });
                     } else {
-                        console.log('close');
+                        self.closeFadeSubmenu();
+                    }
+                });
+            }
+        }, {
+            key: 'closeFadeSubmenu',
+            value: function closeFadeSubmenu() {
+                var self = this;
+
+                var tl = new TimelineLite();
+                tl.to(self.$navbar, 0.2, {
+                    scale: 1.02, opacity: 0, onComplete: function onComplete() {
+
                         self.nav.dropdowns.forEach(function (submenu) {
                             if (submenu.open) {
                                 submenu.open = false;
@@ -184,6 +196,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                         self.$navbar.removeClass('submenu-open');
                     }
+                });
+                tl.to(self.$navbar, 0.2, {
+                    scale: 1, opacity: 1
                 });
             }
         }, {
@@ -313,7 +328,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 if (!self.state.isSubmenuOpen) {
                     self.state.isSubmenuOpen = true;
-                    self.$navbar.addClass('submenu-open');
                 }
 
                 // if (currentDropdown.menu_lv > 1) {
@@ -328,9 +342,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 var tl = new TimelineLite();
                 tl.to(self.$navbar, 0.2, {
-                    scale: 1.01, opacity: 0, onComplete: function onComplete() {
-                        self.$navbar.addClass('submenu-open');
+                    scale: 1.02, opacity: 0, onComplete: function onComplete() {
 
+                        self.$navbar.addClass('submenu-open');
                         self.nav.dropdowns.forEach(function (submenu) {
                             submenu.nav_item.removeClass('open');
                             submenu.open = true;
